@@ -42,24 +42,23 @@ class dst():
 
 
     def toCSV(table, name):
+        table = table.text.replace(",","-")
+
         fileName = name +".csv"
         if not os.path.exists(fileName):
             open(fileName,'w+').close()
 
         with open(fileName,'w') as curCSV:
             writer = csv.writer(curCSV, delimiter = ',', lineterminator = "\n")
-            for row in table.split("\r\n"):
+            for row in table[1:].split("\r\n"):
                 writer.writerow([row])
 
-
-
-getList = [["name", ["varlist"]],
-           ["name", ["varlist"]],
-           ["name", ["varlist"]],
-           ["name", ["varlist"]],
+'''
+getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"]],
+           ["FOLK1A", ["varlist"]]
           ]
-
 
 for i in getList:
     dstReturn = dst.table(i[0],i[1])
-    dst.toCSV(dstreturn, i[0])
+    dst.toCSV(dstReturn, i[0])
+'''
