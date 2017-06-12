@@ -5,12 +5,7 @@ import os
 class dst():
 
     def table(id, vars = False, values = False):
-        if not values:
-            print('''
-            No values selected - setting values to all
-            ''')
-            for i in values:
-                i = ["*"]
+        # TOdo: tolower alt
 
         if not vars:
             print('''
@@ -18,6 +13,14 @@ class dst():
             Setting vars to API default
             ''')
             vars = ''
+
+        if not values:
+            print('''
+            No values selected - setting values to API default
+            ''')
+            values = {}
+            for i in vars:
+                values[i] = ['*']
 
         base = 'http://api.statbank.dk/v1/data/'
         form = '/CSV?lang=en'
@@ -29,7 +32,6 @@ class dst():
             for j in values[i]:
                  baseLink = baseLink + j + ','
             baseLink = baseLink[:-1]
-
         print(baseLink)
         return requests.get(baseLink)
 
@@ -42,7 +44,6 @@ class dst():
         respJSON = requests.get(link).json()
 
         return respJSON
-
 
     def metadata(id):
         base = 'http://api.statbank.dk/v1/tableinfo/'
@@ -69,15 +70,17 @@ class dst():
 
 
 getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"]],
-           ["FOLK1A", ["varlist"]]
+           ["FOLK1A", ["Tid","KØN"]]
           ]
 
-dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+#r = dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
 
-dst.metadata("FOLK1A")
+a = dst.metadata("NAN1")
 
-#st.metadata("FOLK1A")
 
-for i in getList:
-    dstReturn = dst.table(i[0],i[1])
-    dst.toCSV(dstReturn, i[0])
+
+
+
+#for i in getList:
+#    dstReturn = dst.table(i[0],i[1])
+#    dst.toCSV(dstReturn, i[0])
