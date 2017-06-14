@@ -17,8 +17,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
+#project specific ignores
 *.csv
+*.pyc
+__pycache__/*
+
 # =========================
 # Operating System Files
 # =========================

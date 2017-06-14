@@ -2,6 +2,9 @@ import requests
 import csv
 import os
 
+# table(): sends a request to DST's API with specified parameters
+# example request:
+# dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
 
 def table(id, vars = False, values = False):
         # TOdo: tolower alt
@@ -66,20 +69,4 @@ def toCSV(table, name):
         writer = csv.writer(curCSV, delimiter = ',', lineterminator = "\n")
         for row in table[1:].split("\r\n"):
             writer.writerow([row])
-
-
-getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"]],
-           ["FOLK1A", ["Tid","KØN"]]
-          ]
-
-#r = dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
-
-a = dst.metadata("NAN1")
-
-
-
-
-
-#for i in getList:
-#    dstReturn = dst.table(i[0],i[1])
-#    dst.toCSV(dstReturn, i[0])
+        print("Finished saving files to drive")
