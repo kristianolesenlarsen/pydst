@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-import getData as dst
+import apiDST as dst
 
 
 #define list of vars to get

@@ -30,7 +30,9 @@ dat_gdp = dat_gdp[(dat_gdp.PRISENHED == 'chainedPrices') | (dat_gdp.PRISENHED ==
 for key, grp in dat_gdp.groupby(['PRISENHED']):
     plt.plot( grp['TID'], grp['INDHOLD'], label=key)
 plt.legend(loc='best')
+plt.title("GDP")
 
+plt.savefig('gdp.png')
 plt.show()
 
 '''
