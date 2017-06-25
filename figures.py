@@ -1,53 +1,73 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib as mpl
 
-nan1 = pd.read_csv("NAN1.csv", sep = ";", na_values = "..", dtype = {'TRANSAKT': str, 'PRISENHED': str, 'TID': int, 'INDHOLD': float})
 
-replacements_TRANS = {
-'TRANSAKT': {'B.1*g Gross domestic product': 'f_GDP',
-           'P.7 Imports of goods and services': 'f_ImpGoodsServices',
-           'Supply': 'f_supply',
-           'P.6 Exports of goods and services': 'f_expGoodsServices',
-           'P.31 Private consumption': 'f_privConsumption',
-           'P.31 Household consumption expenditure': 'f_hhConsumption',
-           'Purchase of vehicles': 'f_impVehicles',
-           'P.3 Government consumption expenditure': 'f_govExpenditure',
-           'P.5g Gross capital formation': 'f_grossCapitalForm',
-           'N.117 Intellectual property products': 'f_interlectProp',
-           'P.52 Changes in inventories': 'f_inventoryChanges',
-           'Final domestic demand': 'f_domestDemand',
-           'Final demand': 'f_demand',
-           'Total actual hours worked (million hours)': 'f_hoursWorked',
-           'Total employment (1-000 persons)': 'f_employment'} }
+nan1 = pd.read_csv("NAN1.csv", sep = ";", na_values = "..", dtype = {'TRANSAKT': str, 'PRISENHED': str,  'INDHOLD': float}, parse_dates = ['TID'])
+aku100 = pd.read_csv("AKU100.csv", sep = ";", na_values = "..", dtype = {'BESKSTATUS': str, 'ALDER': str, 'INDHOLD': float},parse_dates = ['TID'])
+pris112 = pd.read_csv("PRIS112.csv", sep = ";", na_values = "..", dtype = {'HOVED': str, 'ALDER': str, 'INDHOLD': float},parse_dates = ['TID'])
 
-replacements_PRIS = {
-'PRISENHED': {'Current prices- (bill. DKK.)': 'curPrices',
-       '2010-prices- chained values- (bill. dkk.)': 'chainPrices',
-       'Period-to-period real growth in per cent': 'P2PGrowth',
-       'Pr. capita. Current prices- (1000 DKK.)': 'capitaCurPrices',
-       'Contribution to GDP growth- (percentage point)': 'GDPcontribution',
-       'Pr. capita- 2010-prices- chained values- (1000 DKK.)': 'capitaChainedPrices'}}
 
+replacements_NAN1_TRANS = {
+'TRANSAKT': {'B.1*g Gross domestic product': 'GDP',
+           'P.7 Imports of goods and services': 'ImpGoodsServices'}}
+
+replacements_NAN1_PRIS = {
+'PRISENHED': {'Current prices- (bill. DKK.)': 'currentPrices',
+       '2010-prices- chained values- (bill. dkk.)': 'chainedPrices'}}
 
 #replace some of the column values
-nan1 = nan1.replace(replacements_TRANS)
-nan1 = nan1.replace(replacements_PRIS)
+nan1 = nan1.replace(replacements_NAN1_TRANS).replace(replacements_NAN1_PRIS)
 #drop unnessecary rows in column TRANSAKT
-nan1 = nan1[nan1.TRANSAKT.str.contains("f_") == True]
 
 '''
 PLOT GDP
 '''
-dat_gdp = nan1[nan1.TRANSAKT == 'f_GDP']
-dat_gdp = dat_gdp[(dat_gdp.PRISENHED == 'capitaChainedPrices') | (dat_gdp.PRISENHED == 'capitaCurPrices')]
-
-dat_gdp.groupby('PRISENHED')
+dat_gdp = nan1[nan1.TRANSAKT == 'GDP']
+dat_gdp = dat_gdp[(dat_gdp.PRISENHED == 'chainedPrices') | (dat_gdp.PRISENHED == 'currentPrices')]
 
 for key, grp in dat_gdp.groupby(['PRISENHED']):
     plt.plot( grp['TID'], grp['INDHOLD'], label=key)
 plt.legend(loc='best')
+
+plt.show()
+
+'''
+GDP + CPI
+'''
+
+mergeNANPRIS = pd.merge(dat_gdp[dat_gdp.PRISENHED == 'currentPrices'], pris112, on='TID', how='left')
+
+
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+#plt.axis('normal')
+ax1.plot(mergeNANPRIS.TID, mergeNANPRIS.INDHOLD_x)
+ax2.plot(mergeNANPRIS.TID, mergeNANPRIS.INDHOLD_y, color = 'g')
+ax1.set_ylabel('CPI', color='g')
+ax2.set_ylabel('GDP current prices', color='b')
+
 plt.show()
 
 
-plt.plot()
+
+
+'''
+PLOT AKU
+'''
+# by age
+for i in aku100.ALDER.unique():
+    for key, grp in aku100[aku100.ALDER == i].groupby(['BESKSTATUS']):
+        plt.plot(grp['TID'], grp['INDHOLD'], label = key)
+        plt.legend(loc = 'best')
+        plt.title("Employment status " + i)
+    plt.show()
+
+
+# by employment state
+for i in aku100.BESKSTATUS.unique():
+    for key, grp in aku100[aku100.BESKSTATUS == i].groupby(['ALDER','BESKSTATUS']):
+        plt.plot(grp['TID'], grp['INDHOLD'], label = key)
+        plt.legend(loc = 'best')
+    plt.show()
