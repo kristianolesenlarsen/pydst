@@ -1,5 +1,5 @@
 import schedule
-
+import time
 import sys
 import os
 sys.path.append(os.getcwd())
@@ -20,7 +20,10 @@ def update_all(list):
 
 #update_all(getList)
 # run update_all once every month/whatever
-schedule.every.day.at("13:00").do(update_all, getList)
+schedule.every().day.at("05:30").do(update_all, getList)
 
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 #TODO: get this script to time the run of a Rmd file as well, which is pushed to github.io
