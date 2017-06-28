@@ -11,7 +11,8 @@ import apiDST as dst
 getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': ['B1GQK', 'P7K'], 'PRISENHED': ['V_M','LAN_M']}],
            ["FOLK1A", ["Tid","KØN"]],
            ['AKU100',['Tid', 'BESKSTATUS','ALDER'], {'Tid': ['*'], 'BESKSTATUS': ['BESTOT','AKUL', 'UARBST'], 'ALDER': ['1524','3544','5564']}],
-           ['PRIS112', ['Tid','HOVED'], {'Tid': ['*'], 'HOVED': ['1005']}]
+           ['PRIS112', ['Tid','HOVED'], {'Tid': ['*'], 'HOVED': ['1005']}],
+           ['FOLK2',['Tid','HERKOMST']]
           ]
 
 update_all(getList)
@@ -31,11 +32,7 @@ def update_all(get_list):
         dst.toCSV(dstReturn, i[0])
 
 # run update_all once every month/whatever
-<<<<<<< HEAD
 schedule.every().day.at("05:30").do(update_all, getList)
-=======
-schedule.every().day.at("14:40").do(update_all, getList)
->>>>>>> f5f74f2c499d57136b1241b7a21b9c4c1c7798e1
 
 while True:
     schedule.run_pending()
