@@ -8,6 +8,7 @@ nan1 = pd.read_csv("NAN1.csv", sep = ";", na_values = "..", dtype = {'TRANSAKT':
 aku100 = pd.read_csv("AKU100.csv", sep = ";", na_values = "..", dtype = {'BESKSTATUS': str, 'ALDER': str, 'INDHOLD': float},parse_dates = ['TID'])
 pris112 = pd.read_csv("PRIS112.csv", sep = ";", na_values = "..", dtype = {'HOVED': str, 'ALDER': str, 'INDHOLD': float},parse_dates = ['TID'])
 folk2 = pd.read_csv("FOLK2.csv", sep = ";", na_values = "..", dtype = {'HERKOMST': str, 'INDHOLD': float},parse_dates = ['TID'] )
+konk4 = pd.read_csv("KONK4.csv", sep = ";", na_values = "..", dtype = {'BRANCHE': str, 'INDHOLD': float},parse_dates = ['TID'] )
 
 replacements_NAN1_TRANS = {
 'TRANSAKT': {'B.1*g Gross domestic product': 'GDP',
@@ -82,3 +83,11 @@ for key,grp in folk2.groupby(['HERKOMST']):
     plt.plot(grp['TID'], grp['INDHOLD'], label = key)
     plt.legend(loc = 'best')
 plt.show()
+
+
+
+'''
+PLOT KONK4
+'''
+
+konk4

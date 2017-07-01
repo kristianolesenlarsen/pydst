@@ -6,13 +6,17 @@ sys.path.append(os.getcwd())
 
 import apiDST as dst
 
+dst.metadata("FLY66")
 
 #define list of vars to get
 getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': ['B1GQK', 'P7K'], 'PRISENHED': ['V_M','LAN_M']}],
-           ["FOLK1A", ["Tid","KØN"]],
+           ["FOLK1A", ["Tid","KØN", 'OMRÅDE']],
            ['AKU100',['Tid', 'BESKSTATUS','ALDER'], {'Tid': ['*'], 'BESKSTATUS': ['BESTOT','AKUL', 'UARBST'], 'ALDER': ['1524','3544','5564']}],
            ['PRIS112', ['Tid','HOVED'], {'Tid': ['*'], 'HOVED': ['1005']}],
-           ['FOLK2',['Tid','HERKOMST']]
+           ['FOLK2',['Tid','HERKOMST']],
+           ['KONK4', ['Tid','BRANCHE']],
+           ['LIGEDI0', ['Tid', 'KANDIDAT','INDIKATOR'], {'Tid': ['*'], 'KANDIDAT': ['*'], 'INDIKATOR':['LA1', 'LA2']}],
+           ['FLY66', ['TILKOMMUNE', 'FRAKOMMUNE','Tid'], {'TILKOMMUNE': ['*'], 'FRAKOMMUNE':['101'], 'Tid':['*']}]
           ]
 
 update_all(getList)

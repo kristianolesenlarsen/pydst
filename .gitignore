@@ -21,6 +21,8 @@ $RECYCLE.BIN/
 *.csv
 *.pyc
 __pycache__/*
+*.gif
+*.html
 
 # =========================
 # Operating System Files
