@@ -21,10 +21,7 @@ $RECYCLE.BIN/
 *.csv
 *.pyc
 __pycache__/*
-<<<<<<< HEAD
-=======
 *.gif
->>>>>>> b430c11cc5710817c2e1a214ee530cdf31b13b3b
 *.html
 
 # =========================

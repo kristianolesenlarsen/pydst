@@ -6,25 +6,18 @@ sys.path.append(os.getcwd())
 
 import apiDST as dst
 
-<<<<<<< HEAD
 dst.metadata('FOLK2')
-=======
-dst.metadata("FLY66")
->>>>>>> b430c11cc5710817c2e1a214ee530cdf31b13b3b
+
 
 #define list of vars to get
 getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': ['B1GQK', 'P7K'], 'PRISENHED': ['V_M','LAN_M']}],
            ["FOLK1A", ["Tid","KØN", 'OMRÅDE']],
            ['AKU100',['Tid', 'BESKSTATUS','ALDER'], {'Tid': ['*'], 'BESKSTATUS': ['BESTOT','AKUL', 'UARBST'], 'ALDER': ['1524','3544','5564']}],
            ['PRIS112', ['Tid','HOVED'], {'Tid': ['*'], 'HOVED': ['1005']}],
-<<<<<<< HEAD
-           ['FOLK2',['Tid', 'HERKOMST']]
-=======
            ['FOLK2',['Tid','HERKOMST']],
            ['KONK4', ['Tid','BRANCHE']],
            ['LIGEDI0', ['Tid', 'KANDIDAT','INDIKATOR'], {'Tid': ['*'], 'KANDIDAT': ['*'], 'INDIKATOR':['LA1', 'LA2']}],
            ['FLY66', ['TILKOMMUNE', 'FRAKOMMUNE','Tid'], {'TILKOMMUNE': ['*'], 'FRAKOMMUNE':['101'], 'Tid':['*']}]
->>>>>>> b430c11cc5710817c2e1a214ee530cdf31b13b3b
           ]
 
 #update_all(getList)
@@ -44,11 +37,8 @@ def update_all(get_list):
         dst.toCSV(dstReturn, i[0])
 
 # run update_all once every month/whatever
-<<<<<<< HEAD
-schedule.every().day.at("20:10").do(update_all, getList)
-=======
+
 schedule.every().day.at("05:30").do(update_all, getList)
->>>>>>> b430c11cc5710817c2e1a214ee530cdf31b13b3b
 
 while True:
     schedule.run_pending()

@@ -5,7 +5,10 @@ import os
 # table(): sends a request to DST's API with specified parameters
 # example request:
 # dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
-def table(id, vars = False, values = False):
+
+
+
+def table(id, vars = False, values = False, **kwargs):
     # TODO: tolower alt
     # if vars not set, set it to ''
     if not vars:
@@ -27,6 +30,10 @@ def table(id, vars = False, values = False):
     form = '/CSV?lang=en'
 
     baseLink = base + id + form
+
+    for i in kwargs.items():
+        baseLink = baseLink + '&{}={}'.format(i[0],i[1])
+
     # generate the final API call link and print it, return what the API sends back
     baseLink = linkGenerator_withErrorHandling(baseLink, vars, values)
     print(baseLink)
@@ -47,20 +54,26 @@ def linkGenerator_withErrorHandling(base, vars, values):
     return base
 
 
-def subject(id):
+def subject(id, **kwargs):
     base = 'http://api.statbank.dk/v1/subjects/'
     form = '?lang=en&format=JSON'
 
     link = base + id + form
-    respJSON = requests.get(link).json()
 
-    return respJSON
+    for i in kwargs.items():
+        link = link + '&{}={}'.format(i[0],i[1])
 
-def metadata(id):
+    return requests.get(link).json()
+
+def metadata(id, **kwargs):
     base = 'http://api.statbank.dk/v1/tableinfo/'
     form = '?lang=en&format=JSON'
 
     link = base + id + form
+
+    for i in kwargs.items():
+        link = link + '&{}={}'.format(i[0],i[1])
+
     respJSON = requests.get(link).json()['variables']
     print("There are ", len(respJSON), "variables in ", id, "- acces them with [n]")
 
