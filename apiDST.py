@@ -2,12 +2,20 @@ import requests
 import csv
 import os
 
-# table(): sends a request to DST's API with specified parameters
-# example request:
-# dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+"""
+see http://api.statbank.dk/console#subjects for more examples of usage.
+"""
 
 
+""" table(): sends a request to DST's API with specified parameters
+  - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
+  - vars: which variables to get (list)
+  - values: which levels of each variable to get (dict)
+  - **kwargs: other variables passed in the URL, can be for example 'lang=en'
 
+ example request:
+ dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+"""
 def table(id, vars = False, values = False, **kwargs):
     # TODO: tolower alt
     # if vars not set, set it to ''
@@ -30,17 +38,30 @@ def table(id, vars = False, values = False, **kwargs):
     form = '/CSV?lang=en'
 
     baseLink = base + id + form
-
+    # generate the API call link
+    baseLink = linkGenerator_withErrorHandling(baseLink, vars, values)
+    # add kwargs to link
     for i in kwargs.items():
         baseLink = baseLink + '&{}={}'.format(i[0],i[1])
+    # get API response
+    resp = requests.get(baseLink)
 
-    # generate the final API call link and print it, return what the API sends back
-    baseLink = linkGenerator_withErrorHandling(baseLink, vars, values)
-    print(baseLink)
-    return requests.get(baseLink)
+    #if we dont succeed print the error
+    try:
+        resp.raise_for_status()
+        return resp.text
 
-# failing to specify vars is caught by the initial error check in table(),
-#this captures partial mistakes in values specification
+    except requests.exceptions.HTTPError as err:
+        print(err)
+        return None
+
+
+""" linkGenerator_withErrorHandling(): generates valid URL's from vars and values.
+ - base: baselink (str)
+ - vars: variables to be requested (list)
+ - values: values of each variable (dict)
+failing to specify vars is caught by the initial error check in table(), however this captures partial mistakes in values specification. Used internally.
+"""
 def linkGenerator_withErrorHandling(base, vars, values):
     for i in vars:
         base = base + "&" + i + "="
@@ -54,6 +75,11 @@ def linkGenerator_withErrorHandling(base, vars, values):
     return base
 
 
+
+""" subject(): get broad subject category information
+ - id: subject area ID (usually a two digit number) (str)
+ - **kwargs: other parameters to be passed in the URL like 'format', 'lang','recursive' etc
+"""
 def subject(id, **kwargs):
     base = 'http://api.statbank.dk/v1/subjects/'
     form = '?lang=en&format=JSON'
@@ -65,6 +91,13 @@ def subject(id, **kwargs):
 
     return requests.get(link).json()
 
+
+
+
+""" metadata(): Acces metadata about tables
+ - id: table id, for example 'folk1a' (str)
+ - **kwargs: URL variables.
+"""
 def metadata(id, **kwargs):
     base = 'http://api.statbank.dk/v1/tableinfo/'
     form = '?lang=en&format=JSON'
@@ -79,7 +112,10 @@ def metadata(id, **kwargs):
 
     return respJSON
 
-
+""" toCSV(): you guessed it.
+ - table: output from table()
+ - name: intended filename [without '.csv'!]
+"""
 def toCSV(table, name):
     table = table.text.replace(",","-")
 
