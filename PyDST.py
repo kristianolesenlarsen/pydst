@@ -7,23 +7,21 @@ see http://api.statbank.dk/console#subjects for more examples of usage.
 """
 
 
-""" table(): sends a request to DST's API with specified parameters
-  - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
-  - vars: which variables to get (list)
-  - values: which levels of each variable to get (dict)
-  - **kwargs: other variables passed in the URL, can be for example 'lang=en'
-
- example request:
- dst.table("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
-"""
-
-
 class DST():
     def __init__(self, language = 'en', form = 'JSON'):
         self.lang = language
         self.format = form
 
-    def table(self, id, vars = False, values = False, **kwargs):
+    """ getData(): sends a request to DST's API with specified parameters
+     - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
+     - vars: which variables to get (list)
+     - values: which levels of each variable to get (dict)
+     - **kwargs: other variables passed in the URL, can be for example 'lang=en'
+
+     example request:
+     dst.getData("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+     """
+    def getData(self, id, vars = False, values = False, **kwargs):
         # TODO: tolower alt
         # if vars not set, set it to ''
         if not vars:
@@ -61,6 +59,23 @@ class DST():
         except requests.exceptions.HTTPError as err:
             print(err)
             return None
+
+
+    """ table(): get table id's related to the subjects queried
+    - subjects: a list of subjects given by their subject id
+    """
+    def table(self, subjects, **kwargs):
+        if type(subjects) == str:
+            subjects = [subjects]
+        base = 'http://api.statbank.dk/v1/tables?lang={}&format={}&subjects='.format(self.lang, self.format)
+        for i in subjects:
+            base = base + i + ','
+        base = base[:-1]
+        #optional URL params
+        for i in kwargs.items():
+            base = base + '&{}={}'.format(i[0],i[1])
+        print(base)
+        return requests.get(base).json()
 
 
     """ linkGenerator_withErrorHandling(): generates valid URL's from vars and values.

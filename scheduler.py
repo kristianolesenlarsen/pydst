@@ -33,8 +33,8 @@ def update_all(get_list):
             i2 = i[2]
         except IndexError:
             i2 = False
-        dstReturn = dst.table(i[0],i1,i2)
-        dst.toCSV(dstReturn, i[0])
+        dstReturn = dst.DST().getData(i[0],i1,i2)
+        dst.DST().toCSV(dstReturn, i[0])
 
 # run update_all once every month/whatever
 
