@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-import apiDST as dst
+import PyDST as dst
 
 dst.metadata('FOLK2')
 

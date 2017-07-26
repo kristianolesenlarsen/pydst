@@ -23,6 +23,7 @@ $RECYCLE.BIN/
 __pycache__/*
 *.gif
 *.html
+tests/*
 
 # =========================
 # Operating System Files
