@@ -6,6 +6,11 @@ import os
 see http://api.statbank.dk/console#subjects for more examples of usage.
 """
 
+################################################################################
+#
+#          Main class
+#
+################################################################################
 
 class DST():
     def __init__(self, language = 'en', form = 'JSON'):
@@ -72,10 +77,10 @@ class DST():
             base = base + i + ','
         base = base[:-1]
         #optional URL params
-        for i in kwargs.items():
-            base = base + '&{}={}'.format(i[0],i[1])
-
-        return requests.get(base).json()
+        base = Internals.handleKwargs(base, **kwargs)
+        # get API response
+        resp = requests.get(base)
+        return Internals.raiseOrNone(resp, 'json')
 
 
     """ linkGenerator_withErrorHandling(): generates valid URL's from vars and values.
@@ -105,13 +110,12 @@ class DST():
     def subject(self, id, **kwargs):
         base = 'http://api.statbank.dk/v1/subjects/'
         form = '?lang={}&format={}'.format(self.lang, self.format)
-
+        # base URL
         link = base + id + form
-
-        for i in kwargs.items():
-            link = link + '&{}={}'.format(i[0],i[1])
-
-        return requests.get(link).json()
+        # add kwargs to link and get it
+        link = Internals.handleKwargs(link, **kwargs)
+        resp = requests.get(link)
+        return Internals.raiseOrNone(link, 'json')
 
 
     """ metadata(): Acces metadata about tables
@@ -121,11 +125,9 @@ class DST():
     def metadata(self, id, **kwargs):
         base = 'http://api.statbank.dk/v1/tableinfo/'
         form = '?lang={}&format={}'.format(self.lang, self.format)
-
+        # gen baselink and add kwargs
         link = base + id + form
-
-        for i in kwargs.items():
-            link = link + '&{}={}'.format(i[0],i[1])
+        link = Internals.handleKwargs(link, **kwargs)
 
         respJSON = requests.get(link).json()['variables']
         print("There are ", len(respJSON), "variables in ", id, "- acces them with [n]")
@@ -151,6 +153,10 @@ class DST():
 
 
 
+""" Internals():
+    is a class purely created to have storage for functions that are used repeatedly in the DST() class
+"""
+
 class Internals():
     """ raiseOrNone(): handles http errors
      - response: a resquests.get() answer
@@ -169,7 +175,9 @@ class Internals():
             return None
 
 
-    """
+    """ handleKwargs(): simply adds optional parameters to the URL
+     - link: a link to add params to
+     - **kwargs
     """
     @staticmethod
     def handleKwargs(link, **kwargs):
@@ -180,12 +188,24 @@ class Internals():
 
 
 
-
-""" helpers(): small helper functions that make it easier to take full advantage of the API
+# Not: this is really bad, needs a rethinking
+""" helpers():
+    small helper functions that make it easier to take full advantage of the API
 """
 class helpers():
-    def generateSum(sumDict, text = 'sum', code = False):
+    def __init__(self, dictor = None):
+        if dictor:
+            self.dictor = dictor
+        if not dictor:
+            self.dictor = None
+    """ gererateSum(): generate text suitable for asking the API to return sums over several values in a variable
+     - sumDict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over
+     - text: the label
+    """
+    def generateSum(self, sumDict = {}):
         sumList = []
+        if self.dictor:
+            sumDict = self.dictor
         for i in sumDict:
             sumstr = 'sum({}='.format(i)
             for j in sumDict[i]:
