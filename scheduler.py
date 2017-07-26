@@ -4,9 +4,10 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-import apiDST as dst
+import PyDST as dst
 
-dst.metadata("FLY66")
+dst.metadata('FOLK2')
+
 
 #define list of vars to get
 getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': ['B1GQK', 'P7K'], 'PRISENHED': ['V_M','LAN_M']}],
@@ -19,8 +20,12 @@ getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': [
            ['FLY66', ['TILKOMMUNE', 'FRAKOMMUNE','Tid'], {'TILKOMMUNE': ['*'], 'FRAKOMMUNE':['101'], 'Tid':['*']}]
           ]
 
+<<<<<<< HEAD
 
 update_all(getList)
+=======
+#update_all(getList)
+>>>>>>> d6e508dc6d947922d350a3e8ea2faf664558235a
 
 # update all datasets with with the code currently tested in getData
 def update_all(get_list):
@@ -33,10 +38,11 @@ def update_all(get_list):
             i2 = i[2]
         except IndexError:
             i2 = False
-        dstReturn = dst.table(i[0],i1,i2)
-        dst.toCSV(dstReturn, i[0])
+        dstReturn = dst.DST().getData(i[0],i1,i2)
+        dst.DST().toCSV(dstReturn, i[0])
 
 # run update_all once every month/whatever
+
 schedule.every().day.at("05:30").do(update_all, getList)
 
 while True:
