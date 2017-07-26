@@ -32,3 +32,16 @@ DST().getData(id = 'FOLK1A',
 ```
 
 To figure out which data are available in a given dataset, simply call `DST().metadata(id)`, to get a rather complex JSON of variables and values of a given dataset. Finally the function `DST().toCSV(table = output_from_getData , name = intended_filename)` handles a small quirk of the returned CSV's (at least on windows machines) making it easy to save the returned values as .csv's.
+
+The `*` does more than instruct the API to return all levels of a variable, as it can act as a joker, as such requesting `*K1` should return all levels ending in _K1_.
+
+
+### Advanced requests
+The API supports a number of advanced request formats, for now danish documentation of these can be found at DST, but hopefully they will be included at some point. The gist of it is that you can do lookups like
+
+```python
+DST().getData(id = 'FOLK1A',
+              vars = ['ALDER'],
+              values =  {'ALDER':['sum(0;1;2;3;4)']} )
+```
+which returns the sum of individuals with an age (`ALDER`) of 0,1,2,3 or 4 years. 

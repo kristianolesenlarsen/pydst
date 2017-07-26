@@ -150,3 +150,22 @@ class DST():
             for row in table[1:].split("\r\n"):
                 writer.writerow([row])
             print("Finished saving files from",name ,"to drive")
+
+
+#
+#
+#
+
+
+class helpers():
+    def generateSum(sumDict, text = 'sum', code = False):
+        sumList = []
+        for i in sumDict:
+            sumstr = 'sum({}='.format(i)
+            for j in sumDict[i]:
+                sumstr = sumstr + j + ';'
+            sumstr = sumstr[:-1] + ')'
+            sumList.append(sumstr)
+
+        out = ','.join(sumList)
+        return out
