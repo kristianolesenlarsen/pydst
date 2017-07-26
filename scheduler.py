@@ -20,12 +20,7 @@ getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': [
            ['FLY66', ['TILKOMMUNE', 'FRAKOMMUNE','Tid'], {'TILKOMMUNE': ['*'], 'FRAKOMMUNE':['101'], 'Tid':['*']}]
           ]
 
-<<<<<<< HEAD
-
-update_all(getList)
-=======
 #update_all(getList)
->>>>>>> d6e508dc6d947922d350a3e8ea2faf664558235a
 
 # update all datasets with with the code currently tested in getData
 def update_all(get_list):

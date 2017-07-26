@@ -11,7 +11,7 @@ class DST():
     def __init__(self, language = 'en', form = 'JSON'):
         self.lang = language
         self.format = form
-
+#        super().__init__()
     """ getData(): sends a request to DST's API with specified parameters
      - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
      - vars: which variables to get (list)
@@ -46,12 +46,12 @@ class DST():
         # generate the API call link
         baseLink = self.linkGenerator_withErrorHandling(baseLink, vars, values)
         # add kwargs to link
-        for i in kwargs.items():
-            baseLink = baseLink + '&{}={}'.format(i[0],i[1])
+        baseLink = Internals.handleKwargs(baseLink, **kwargs)
         # get API response
         resp = requests.get(baseLink)
-
-        #if we dont succeed print the error
+        #if we dont succeed print the http error, otherwise spit out data
+        return Internals.raiseOrNone(resp, 'csv')
+        """
         try:
             resp.raise_for_status()
             return resp.text
@@ -59,7 +59,7 @@ class DST():
         except requests.exceptions.HTTPError as err:
             print(err)
             return None
-
+        """
 
     """ table(): get table id's related to the subjects queried
     - subjects: a list of subjects given by their subject id
@@ -74,7 +74,7 @@ class DST():
         #optional URL params
         for i in kwargs.items():
             base = base + '&{}={}'.format(i[0],i[1])
-        print(base)
+
         return requests.get(base).json()
 
 
@@ -114,8 +114,6 @@ class DST():
         return requests.get(link).json()
 
 
-
-
     """ metadata(): Acces metadata about tables
      - id: table id, for example 'folk1a' (str)
      - **kwargs: URL variables.
@@ -152,11 +150,39 @@ class DST():
             print("Finished saving files from",name ,"to drive")
 
 
-#
-#
-#
+
+class Internals():
+    """ raiseOrNone(): handles http errors
+     - response: a resquests.get() answer
+     - output: 'csv' or 'json'
+    """
+    @staticmethod
+    def raiseOrNone(response, output):
+        try:
+            response.raise_for_status()
+            if output == 'csv':
+                return response.text
+            if output == 'json':
+                return response.json()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+            return None
 
 
+    """
+    """
+    @staticmethod
+    def handleKwargs(link, **kwargs):
+        for i in kwargs.items():
+            link = link + '&{}={}'.format(i[0],i[1])
+        return link
+
+
+
+
+
+""" helpers(): small helper functions that make it easier to take full advantage of the API
+"""
 class helpers():
     def generateSum(sumDict, text = 'sum', code = False):
         sumList = []
