@@ -89,5 +89,3 @@ plt.show()
 '''
 PLOT KONK4
 '''
-
-konk4

@@ -19,6 +19,7 @@ getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': [
            ['FLY66', ['TILKOMMUNE', 'FRAKOMMUNE','Tid'], {'TILKOMMUNE': ['*'], 'FRAKOMMUNE':['101'], 'Tid':['*']}]
           ]
 
+
 update_all(getList)
 
 # update all datasets with with the code currently tested in getData
