@@ -6,11 +6,6 @@ import os
 see http://api.statbank.dk/console#subjects for more examples of usage.
 """
 
-################################################################################
-#
-#          Main class
-#
-################################################################################
 
 class DST():
     def __init__(self, language = 'en', form = 'JSON'):
@@ -156,7 +151,6 @@ class DST():
 """ Internals():
     is a class purely created to have storage for functions that are used repeatedly in the DST() class
 """
-
 class Internals():
     """ raiseOrNone(): handles http errors
      - response: a resquests.get() answer
@@ -188,30 +182,46 @@ class Internals():
 
 
 
+
+
 # Not: this is really bad, needs a rethinking
 """ helpers():
     small helper functions that make it easier to take full advantage of the API
 """
 class helpers():
-    def __init__(self, dictor = None):
-        if dictor:
-            self.dictor = dictor
-        if not dictor:
-            self.dictor = None
+    def __init__(self, vardict = None):
+        if vardict:
+            self.vardict = vardict
+        if not vardict:
+            self.vardict = None
     """ gererateSum(): generate text suitable for asking the API to return sums over several values in a variable
      - sumDict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over
      - text: the label
     """
-    def generateSum(self, sumDict = {}):
+    def generateSum(self, vardict = None):
         sumList = []
-        if self.dictor:
-            sumDict = self.dictor
-        for i in sumDict:
+        if self.vardict and not vardict:
+            vardict = self.vardict
+        for i in vardict:
             sumstr = 'sum({}='.format(i)
-            for j in sumDict[i]:
+            for j in vardict[i]:
                 sumstr = sumstr + j + ';'
             sumstr = sumstr[:-1] + ')'
             sumList.append(sumstr)
 
         out = ','.join(sumList)
         return out
+
+    def generateVars(vardict = None):
+        if self.vardict and not vardict:
+            vardict = self.vardict
+        return vardict.keys()
+
+    def generateValues(vardict = None):
+        if self.vardict and not vardict:
+            vardict = self.vardict
+        for i in vardict.keys():
+            # ... 
+
+    def getValuesOfVar(dataset, var):
+        pass
