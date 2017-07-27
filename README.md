@@ -36,7 +36,7 @@ To figure out which data are available in a given dataset, simply call `DST().me
 The `*` does more than instruct the API to return all levels of a variable, as it can act as a joker, as such requesting `*K1` should return all levels ending in _K1_.
 
 
-### Advanced requests
+### Advanced requests and helpers
 The API supports a number of advanced request formats, for now danish documentation of these can be found at DST, but hopefully they will be included at some point. The gist of it is that you can do lookups like
 
 ```python
@@ -44,4 +44,4 @@ DST().getData(id = 'FOLK1A',
               vars = ['ALDER'],
               values =  {'ALDER':['sum(0;1;2;3;4)']} )
 ```
-which returns the sum of individuals with an age (`ALDER`) of 0,1,2,3 or 4 years. The `helper.generateSum()` function can be used to generate sums as the one mentioned above. The function takes a dict as its only argument, which should contain labels as keys, and lists of which variable levels should be summed under each label as values.
+which returns the sum of individuals with an age (`ALDER`) of 0,1,2,3 or 4 years. The `helper.generateSum()` function can be used to generate sums as the one mentioned above. The function takes a dict as its only argument, which should contain labels as keys, and lists of which variable levels should be summed under each label as values. There are other helper functions, to easily produce sum-lookups, variable lists, and value lists from a single dict.
