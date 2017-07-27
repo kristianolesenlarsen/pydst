@@ -44,4 +44,4 @@ DST().getData(id = 'FOLK1A',
               vars = ['ALDER'],
               values =  {'ALDER':['sum(0;1;2;3;4)']} )
 ```
-which returns the sum of individuals with an age (`ALDER`) of 0,1,2,3 or 4 years. 
+which returns the sum of individuals with an age (`ALDER`) of 0,1,2,3 or 4 years. The `helper.generateSum()` function can be used to generate sums as the one mentioned above. The function takes a dict as its only argument, which should contain labels as keys, and lists of which variable levels should be summed under each label as values.
