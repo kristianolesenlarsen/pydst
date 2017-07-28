@@ -51,15 +51,34 @@ class DST():
         resp = requests.get(baseLink)
         #if we dont succeed print the http error, otherwise spit out data
         return Internals.raiseOrNone(resp, 'csv')
-        """
-        try:
-            resp.raise_for_status()
-            return resp.text
 
-        except requests.exceptions.HTTPError as err:
-            print(err)
-            return None
+
+        """ getMultiple(): get multiple datasets at once by giving a list of requests to getData()
+         - list_of_calls: a list containing valid calls to getData, i.e. [datasetname, [var1, var2], {'var1': [value11, value12], 'var2': [value21, value 22]}]
+         - filepath: path/to/save/csv/at - default is working directory
+         - to_csv: do you want your files saved as csv's? default is True
         """
+        def getMultiple(list_of_calls, filepath = '', to_csv = True):
+            # for each dataset, get the data with getData and append to a list
+            dstReturn = []
+            # if no vars or values are supplied, ensure GetData will handle them as expected
+            for i in list_of_calls:
+                try:
+                    i1 = i[1]
+                except IndexError:
+                    i1 = False
+                try:
+                    i2 = i[2]
+                except IndexError:
+                    i2 = False
+                # call DST
+                resp = self.getData(i[0],i1,i2)
+                dstReturn.append(resp)
+                # possibly save your files
+                if to_csv:
+                    self.toCSV(resp, '.' + '/'.join([filepath, i[0]]))
+            return dstReturn
+
 
     """ table(): get table id's related to the subjects queried
     - subjects: a list of subjects given by their subject id
@@ -181,30 +200,41 @@ class Internals():
 
 
 
+""" vardict
+['table',
+    ['var1', 'var2'],
+        {
+        'var1': ['a','b','c'],
+         'var2':['d','e']
+         }
+]
+"""
 
-
-
-# Not: this is really bad, needs a rethinking
+# Note: this is really bad, needs a rethinking
 """ helpers():
     small helper functions that make it easier to take full advantage of the API
 """
 class helpers():
-    def __init__(self, vardict = None):
-        if vardict:
-            self.vardict = vardict
-        if not vardict:
-            self.vardict = None
+    def __init__(self, sumdict = None):
+        if sumdict:
+            self.sumdict = sumdict
+        if not sumdict:
+            self.sumdict = None
     """ gererateSum(): generate text suitable for asking the API to return sums over several values in a variable
-     - sumDict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over
-     - text: the label
+     - sumdict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over, below is an example for having the API return var1 summed over a,b,c as one value, and summed over e,f as another value.
+        example:
+            {'label1': ['a','b','c'],
+             'label2': ['e','f'],
+             }
+     - text: the label to give
     """
-    def generateSum(self, vardict = None):
+    def generateSum(self, sumdict = None):
         sumList = []
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        for i in vardict:
+        if self.sumdict and not sumdict:
+            sumdict = self.sumdict
+        for i in sumdict:
             sumstr = 'sum({}='.format(i)
-            for j in vardict[i]:
+            for j in sumdict[i]:
                 sumstr = sumstr + j + ';'
             sumstr = sumstr[:-1] + ')'
             sumList.append(sumstr)
@@ -212,16 +242,5 @@ class helpers():
         out = ','.join(sumList)
         return out
 
-    def generateVars(vardict = None):
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        return vardict.keys()
-
-    def generateValues(vardict = None):
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        for i in vardict.keys():
-            # ... 
-
-    def getValuesOfVar(dataset, var):
+    def merge(set1, set2):
         pass
