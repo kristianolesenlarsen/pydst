@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 
 import PyDST as dst
 
-dst.metadata('FOLK2')
+dst.DST().metadata('FOLK1a')
 
 
 #define list of vars to get
