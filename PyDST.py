@@ -2,6 +2,8 @@ import requests
 import csv
 import os
 
+
+
 """
 see http://api.statbank.dk/console#subjects for more examples of usage.
 """
@@ -11,7 +13,7 @@ class DST():
     def __init__(self, language = 'en', form = 'JSON'):
         self.lang = language
         self.format = form
-#        super().__init__()
+
     """ getData(): sends a request to DST's API with specified parameters
      - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
      - vars: which variables to get (list)
@@ -19,47 +21,39 @@ class DST():
      - **kwargs: other variables passed in the URL, can be for example 'lang=en'
 
      example request:
-     dst.getData("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+     DST().getData("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
      """
-    def getData(self, id, vars = False, values = False, **kwargs):
-        # TODO: tolower alt
+    def getData(self, table_id, vars = False, values = False, **kwargs):
         # if vars not set, set it to ''
-        if not vars:
-            print('''
-            no variables selected - choose variables with dst.metadata()
-            Setting vars to API default
-            ''')
-            vars = ''
         #if values is not set, set it to * - meaning get all levels
-        if not values:
-            print('''
-            No values selected - setting values to all
-            ''')
+        if not vars and not values:
+            print("""
+            No variables or values selected! Getting API deault
+            """)
+        if not vars and values:
+            print("""
+            No variables selected! Using value-dictionary keys as variables
+            """)
+            vars = list(values.keys())
+        if vars and not values:
+            print("""
+            No values selected! Setting values to all ('*')
+            """)
             values = {}
             for i in vars:
                 values[i] = ['*']
+
         #set the base link to get table with id = id
-        base = 'http://api.statbank.dk/v1/data/'
-        form = '/CSV?lang={}'.format(self.lang)
-
-        baseLink = base + id + form
+        base = 'http://api.statbank.dk/v1/data/{}/CSV?lang={}'.format(table_id, self.lang)
         # generate the API call link
-        baseLink = self.linkGenerator_withErrorHandling(baseLink, vars, values)
+        base = Internals.link_generator_with_error_handling(base, vars, values)
         # add kwargs to link
-        baseLink = Internals.handleKwargs(baseLink, **kwargs)
+        link_final = Internals.handle_kwargs(base, **kwargs)
         # get API response
-        resp = requests.get(baseLink)
+        resp = requests.get(link_final)
         #if we dont succeed print the http error, otherwise spit out data
-        return Internals.raiseOrNone(resp, 'csv')
-        """
-        try:
-            resp.raise_for_status()
-            return resp.text
+        return Internals.raise_or_none(resp, 'csv')
 
-        except requests.exceptions.HTTPError as err:
-            print(err)
-            return None
-        """
 
     """ table(): get table id's related to the subjects queried
     - subjects: a list of subjects given by their subject id
@@ -68,34 +62,11 @@ class DST():
         if type(subjects) == str:
             subjects = [subjects]
         base = 'http://api.statbank.dk/v1/tables?lang={}&format={}&subjects='.format(self.lang, self.format)
-        for i in subjects:
-            base = base + i + ','
-        base = base[:-1]
-        #optional URL params
-        base = Internals.handleKwargs(base, **kwargs)
-        # get API response
-        resp = requests.get(base)
-        return Internals.raiseOrNone(resp, 'json')
-
-
-    """ linkGenerator_withErrorHandling(): generates valid URL's from vars and values.
-     - base: baselink (str)
-     - vars: variables to be requested (list)
-     - values: values of each variable (dict)
-    failing to specify vars is caught by the initial error check in table(), however this captures partial mistakes in values specification. Used internally.
-    """
-    def linkGenerator_withErrorHandling(self, base, vars, values):
-        for i in vars:
-            base = base + "&" + i + "="
-            try:
-                for j in values[i]:
-                    base = base + j + ','
-            except KeyError:
-                base = base + "*,"
-                print("No values at", i,"setting values to all")
-            base = base[:-1]
-        return base
-
+        # add subjects to link and optional URL params
+        link_final = Internals.handle_kwargs(''.join([base, ','.join(subjects)]), **kwargs)
+        # get API response and return
+        resp = requests.get(link_final)
+        return Internals.raise_or_none(resp, 'json')
 
 
     """ subject(): get broad subject category information
@@ -108,26 +79,53 @@ class DST():
         # base URL
         link = base + id + form
         # add kwargs to link and get it
-        link = Internals.handleKwargs(link, **kwargs)
+        link = Internals.handle_kwargs(link, **kwargs)
         resp = requests.get(link)
-        return Internals.raiseOrNone(link, 'json')
+        return Internals.raise_or_none(link, 'json')
 
 
     """ metadata(): Acces metadata about tables
      - id: table id, for example 'folk1a' (str)
+     - output_format: how much metadata do you want? opions are full, variables and values
      - **kwargs: URL variables.
     """
-    def metadata(self, id, **kwargs):
+    def metadata(self, id, output_format = 'full', **kwargs):
         base = 'http://api.statbank.dk/v1/tableinfo/'
         form = '?lang={}&format={}'.format(self.lang, self.format)
         # gen baselink and add kwargs
         link = base + id + form
-        link = Internals.handleKwargs(link, **kwargs)
+        link = Internals.handle_kwargs(link, **kwargs)
 
-        respJSON = requests.get(link).json()['variables']
-        print("There are ", len(respJSON), "variables in ", id, "- acces them with [n]")
+        respJSON = requests.get(link).json()
 
-        return respJSON
+        # give full output
+        if output_format == 'full':
+            return respJSON
+
+        # give variables
+        elif output_format == 'variables':
+            output = {'variables': []}
+            for i in range(0,len(x['variables']) - 1):
+                output['variables'].append(x['variables'][i]['id'])
+            return output
+
+        # give variable-value dict
+        elif output_format == 'values':
+            output = {}
+            for i in range(0,len(x['variables']) - 1):
+                ID = x['variables'][i]['id']
+                values = []
+                for j in range(0, len( x['variables'][i]['values']) - 1):
+                    values.append(x['variables'][i]['values'][j]['id'])
+                output[ID] = values
+            return output
+        # if you dont select you get nothing
+        else:
+            print("""
+            Bad output format
+            """)
+            return None
+
 
     """ toCSV(): you guessed it.
      - table: output from table()
@@ -152,12 +150,12 @@ class DST():
     is a class purely created to have storage for functions that are used repeatedly in the DST() class
 """
 class Internals():
-    """ raiseOrNone(): handles http errors
+    """ raise_or_none(): handles http errors
      - response: a resquests.get() answer
      - output: 'csv' or 'json'
     """
     @staticmethod
-    def raiseOrNone(response, output):
+    def raise_or_none(response, output):
         try:
             response.raise_for_status()
             if output == 'csv':
@@ -174,54 +172,25 @@ class Internals():
      - **kwargs
     """
     @staticmethod
-    def handleKwargs(link, **kwargs):
-        for i in kwargs.items():
-            link = link + '&{}={}'.format(i[0],i[1])
+    def handle_kwargs(link, **kwargs):
+        for k, v in kwargs.items():
+            link = link + '&{}={}'.format(k, v)
         return link
 
-
-
-
-
-
-# Not: this is really bad, needs a rethinking
-""" helpers():
-    small helper functions that make it easier to take full advantage of the API
-"""
-class helpers():
-    def __init__(self, vardict = None):
-        if vardict:
-            self.vardict = vardict
-        if not vardict:
-            self.vardict = None
-    """ gererateSum(): generate text suitable for asking the API to return sums over several values in a variable
-     - sumDict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over
-     - text: the label
-    """
-    def generateSum(self, vardict = None):
-        sumList = []
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        for i in vardict:
-            sumstr = 'sum({}='.format(i)
-            for j in vardict[i]:
-                sumstr = sumstr + j + ';'
-            sumstr = sumstr[:-1] + ')'
-            sumList.append(sumstr)
-
-        out = ','.join(sumList)
-        return out
-
-    def generateVars(vardict = None):
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        return vardict.keys()
-
-    def generateValues(vardict = None):
-        if self.vardict and not vardict:
-            vardict = self.vardict
-        for i in vardict.keys():
-            # ... 
-
-    def getValuesOfVar(dataset, var):
-        pass
+    @staticmethod
+    def link_generator_with_error_handling(base, vars, values):
+        # if neither vars or values, do nothing
+        if not vars and not values:
+            return base
+        # otherwise produce the link
+        else:
+            for i in vars:
+                base = base + "&" + i + "="
+                try:
+                    for j in values[i]:
+                        base = base + j + ','
+                except KeyError:
+                    base = base + "*,"
+                    print("No values at", i,"setting values to all")
+                base = base[:-1]
+        return base
