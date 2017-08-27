@@ -14,16 +14,16 @@ class DST():
         self.lang = language
         self.format = form
 
-    """ getData(): sends a request to DST's API with specified parameters
+    """ get_data(): sends a request to DST's API with specified parameters
      - id: table id, a list of available id's can be gained  from .subjects() or the DST website (str)
      - vars: which variables to get (list)
      - values: which levels of each variable to get (dict)
      - **kwargs: other variables passed in the URL, can be for example 'lang=en'
 
      example request:
-     DST().getData("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+     DST().get_data("FOLK1A", ["Tid","CIVILSTAND"], {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
      """
-    def getData(self, table_id, vars = False, values = False, **kwargs):
+    def get_data(self, table_id, vars = False, values = False, **kwargs):
         # if vars not set, set it to ''
         #if values is not set, set it to * - meaning get all levels
         if not vars and not values:
@@ -191,8 +191,3 @@ class Internals():
                     print("No values at", i,"setting values to all")
                 base = base[:-1]
         return base
-
-
-DST().subject_tables('2406', recursive = 'true')
-
-DST().browse_subject('02')
