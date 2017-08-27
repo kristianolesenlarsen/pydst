@@ -1,14 +1,39 @@
 # A tiny script for accessing the API of Statistics Denmark
 
-apiDST holds functions to do basic interaction with the API of Statistics Denmark. Beyond that the idea of this project is to build a self-updating page with graphs of key figures of the Danish economy and society.  
+PyDST holds functions to do basic interaction with the API of Statistics Denmark.
 
 
 <p align="center">
 <img src="gdp.png" alt="GDP plot">
 </p>
 
+## Content
+
+* class `DST()` takes variables `language` and `form` (output format) on initialization. Both have default values.
+    * `__init__(language, form)`
+        * `language` is `en` (english) as default, can be set to  `da` (danish).
+        * `form` is `json` as default, can be set to `csv`.
+    * `get_data(table_id, vars, values, **kwargs)` retrieves a specific table.
+        * `table_id` is the id given to a specific table by Statistics Denmark.
+        * `vars` is a list of variables to request.
+        * `values` is a dictionary with keys being variables and values being the data-values of each variable to request. Note if vars are not supplied, the dictionary keys from values will be used instead.
+        * `**kwargs` allow you to pass other parameters in the URL.
+    * `browse_subject(subject_id, **kwargs)` allows you to browse and navigate the data hierachy as it appears on [statistikbanken](http://www.statistikbanken.dk/).
+        * `id` is a unique number identifying the branch of the hierachy you want to browse (top level id's run from 01 to 18)
+        * `**kwargs` allow you to pass other parameters in the URL.
+    * `subject_tables(subject_id, **kwargs)` finds all tables associated with a specific subject or sub-subject
+        * `subject_id` the subject id (or a list of id's), equivalent to the one used in browse_subject
+        * `**kwargs` allow you to pass other parameters in the URL.
+    * `metadata(table_id, output_format, **kwargs)` gives access to metadata about specific tables.
+        * `table_id` the table you want metadata about
+        * `output_format` the level of detail in the output, can be `full`, `variables` or `values`
+        * `**kwargs` allow you to pass other parameters in the URL.
+    * `toCSV(table, name)` converts the output to a csv file and saves it on drive. (note, this might be removed in the future)
+        * `table` the raw output of `get_data(.)`
+        * `name` the relative path to store the file at
+
 ## Usage
-The script contains the class `DST()`, which takes arguments `language` and `form`, both of which have default values. To learn more about what values can be supplied here or as kwargs, check out [the API console](http://api.statbank.dk/console#subjects).
+The script contains the class `DST()`, which takes arguments `language` and `form` (output format), both of which have default values. To learn more about what values can be supplied here or as kwargs, check out [the API console](http://api.statbank.dk/console#subjects).
 
 
 After importing the .py file, you can call the following command to get information about the various datasets, or simply check the website of [DST](statistikbanken.dk).

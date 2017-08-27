@@ -58,12 +58,12 @@ class DST():
     """ table(): get table id's related to the subjects queried
     - subjects: a list of subjects given by their subject id
     """
-    def table(self, subjects, **kwargs):
-        if type(subjects) == str:
-            subjects = [subjects]
+    def subject_tables(self, subject_id, **kwargs):
+        if type(subject_id) == str:
+            subject_id = [subject_id]
         base = 'http://api.statbank.dk/v1/tables?lang={}&format={}&subjects='.format(self.lang, self.format)
         # add subjects to link and optional URL params
-        link_final = Internals.handle_kwargs(''.join([base, ','.join(subjects)]), **kwargs)
+        link_final = Internals.handle_kwargs(''.join([base, ','.join(subject_id)]), **kwargs)
         # get API response and return
         resp = requests.get(link_final)
         return Internals.raise_or_none(resp, 'json')
@@ -73,15 +73,12 @@ class DST():
      - id: subject area ID (usually a two digit number) (str)
      - **kwargs: other parameters to be passed in the URL like 'format', 'lang','recursive' etc
     """
-    def subject(self, id, **kwargs):
-        base = 'http://api.statbank.dk/v1/subjects/'
-        form = '?lang={}&format={}'.format(self.lang, self.format)
-        # base URL
-        link = base + id + form
+    def browse_subject(self, subject_id, **kwargs):
+        base = 'http://api.statbank.dk/v1/subjects/{}?lang={}&format={}'.format(subject_id, self.lang, self.format)
         # add kwargs to link and get it
-        link = Internals.handle_kwargs(link, **kwargs)
+        link = Internals.handle_kwargs(base, **kwargs)
         resp = requests.get(link)
-        return Internals.raise_or_none(link, 'json')
+        return Internals.raise_or_none(resp, 'json')
 
 
     """ metadata(): Acces metadata about tables
@@ -89,11 +86,11 @@ class DST():
      - output_format: how much metadata do you want? opions are full, variables and values
      - **kwargs: URL variables.
     """
-    def metadata(self, id, output_format = 'full', **kwargs):
+    def metadata(self, table_id, output_format = 'full', **kwargs):
         base = 'http://api.statbank.dk/v1/tableinfo/'
         form = '?lang={}&format={}'.format(self.lang, self.format)
         # gen baselink and add kwargs
-        link = base + id + form
+        link = base + table_id + form
         link = Internals.handle_kwargs(link, **kwargs)
 
         respJSON = requests.get(link).json()
@@ -194,3 +191,8 @@ class Internals():
                     print("No values at", i,"setting values to all")
                 base = base[:-1]
         return base
+
+
+DST().subject_tables('2406', recursive = 'true')
+
+DST().browse_subject('02')
