@@ -52,40 +52,8 @@ class DST():
         # get API response
         resp = requests.get(link_final)
         #if we dont succeed print the http error, otherwise spit out data
-<<<<<<< HEAD
-        return Internals.raiseOrNone(resp, 'csv')
-
-
-        """ getMultiple(): get multiple datasets at once by giving a list of requests to getData()
-         - list_of_calls: a list containing valid calls to getData, i.e. [datasetname, [var1, var2], {'var1': [value11, value12], 'var2': [value21, value 22]}]
-         - filepath: path/to/save/csv/at - default is working directory
-         - to_csv: do you want your files saved as csv's? default is True
-        """
-        def getMultiple(list_of_calls, filepath = '', to_csv = True):
-            # for each dataset, get the data with getData and append to a list
-            dstReturn = []
-            # if no vars or values are supplied, ensure GetData will handle them as expected
-            for i in list_of_calls:
-                try:
-                    i1 = i[1]
-                except IndexError:
-                    i1 = False
-                try:
-                    i2 = i[2]
-                except IndexError:
-                    i2 = False
-                # call DST
-                resp = self.getData(i[0],i1,i2)
-                dstReturn.append(resp)
-                # possibly save your files
-                if to_csv:
-                    self.toCSV(resp, '.' + '/'.join([filepath, i[0]]))
-            return dstReturn
-
-=======
         return Internals.raise_or_none(resp, 'csv')
 
->>>>>>> a880da8737cf92624488d9ce9c0aeda90bc2cd0b
 
     """ table(): get table id's related to the subjects queried
     - subjects: a list of subjects given by their subject id
@@ -206,54 +174,6 @@ class Internals():
             link = link + '&{}={}'.format(k, v)
         return link
 
-<<<<<<< HEAD
-
-
-""" vardict
-['table',
-    ['var1', 'var2'],
-        {
-        'var1': ['a','b','c'],
-         'var2':['d','e']
-         }
-]
-"""
-
-# Note: this is really bad, needs a rethinking
-""" helpers():
-    small helper functions that make it easier to take full advantage of the API
-"""
-class helpers():
-    def __init__(self, sumdict = None):
-        if sumdict:
-            self.sumdict = sumdict
-        if not sumdict:
-            self.sumdict = None
-    """ gererateSum(): generate text suitable for asking the API to return sums over several values in a variable
-     - sumdict: a dict of variable keys (labels for the aggregate series), linked to levels to be summed over, below is an example for having the API return var1 summed over a,b,c as one value, and summed over e,f as another value.
-        example:
-            {'label1': ['a','b','c'],
-             'label2': ['e','f'],
-             }
-     - text: the label to give
-    """
-    def generateSum(self, sumdict = None):
-        sumList = []
-        if self.sumdict and not sumdict:
-            sumdict = self.sumdict
-        for i in sumdict:
-            sumstr = 'sum({}='.format(i)
-            for j in sumdict[i]:
-                sumstr = sumstr + j + ';'
-            sumstr = sumstr[:-1] + ')'
-            sumList.append(sumstr)
-
-        out = ','.join(sumList)
-        return out
-
-    def merge(set1, set2):
-        pass
-=======
     @staticmethod
     def link_generator_with_error_handling(base, vars, values):
         # if neither vars or values, do nothing
@@ -271,4 +191,3 @@ class helpers():
                     print("No values at", i,"setting values to all")
                 base = base[:-1]
         return base
->>>>>>> a880da8737cf92624488d9ce9c0aeda90bc2cd0b
