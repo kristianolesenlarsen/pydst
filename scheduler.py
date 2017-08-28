@@ -6,7 +6,11 @@ sys.path.append(os.getcwd())
 
 import PyDST as dst
 
+<<<<<<< HEAD
 dst.DST().metadata('FOLK1a')
+=======
+dst.DST().metadata('FOLK2')
+>>>>>>> a880da8737cf92624488d9ce9c0aeda90bc2cd0b
 
 
 #define list of vars to get
@@ -33,7 +37,7 @@ def update_all(get_list):
             i2 = i[2]
         except IndexError:
             i2 = False
-        dstReturn = dst.DST().getData(i[0],i1,i2)
+        dstReturn = dst.DST().get_data(i[0],i1,i2)
         dst.DST().toCSV(dstReturn, i[0])
 
 # run update_all once every month/whatever
