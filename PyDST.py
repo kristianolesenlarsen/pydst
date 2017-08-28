@@ -118,7 +118,6 @@ class DST():
 """
 metadata_return is the class returned from DST().metadata, it has properties containing different levels of detail in the metadata
 """
-
 class metadata_return():
     def __init__(self, x):
         self.full_set = x
