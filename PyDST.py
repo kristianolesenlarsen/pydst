@@ -123,8 +123,11 @@ class metadata_return():
     def __init__(self, x):
         self.full_set = x
         self.contact_info = self.full_set['contact']
+
         self.descript = self.full_set['description']
+
         self.txt = self.full_set['text']
+
         output_vars = []
         for i in range(0,len(x['variables']) - 1):
             output_vars.append(x['variables'][i]['id'])
@@ -165,8 +168,6 @@ class metadata_return():
     def values(self):
         return self.value
 
-
-DST().metadata('folk1a').full['text']
 
 """ Internals():
     is a class purely created to have storage for functions that are used repeatedly in the DST() class
