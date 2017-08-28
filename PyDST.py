@@ -28,7 +28,7 @@ class DST():
         #if values is not set, set it to * - meaning get all levels
         if not vars and not values:
             print("""
-            No variables or values selected! Getting API deault
+            No variables or values selected! Getting API default
             """)
         if not vars and values:
             print("""
