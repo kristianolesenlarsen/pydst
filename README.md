@@ -1,6 +1,6 @@
 # A tiny script for accessing the API of Statistics Denmark
 
-PyDST holds functions to do basic interaction with the API of Statistics Denmark.  
+PyDST holds functions to do basic interaction with the API of Statistics Denmark. I hope to get the package on pip soon, but so far it doesn't really work for me, so stay tuned.
 
 
 <p align="center">
@@ -24,7 +24,7 @@ PyDST holds functions to do basic interaction with the API of Statistics Denmark
     * `subject_tables(subject_id, **kwargs)` finds all tables associated with a specific subject or sub-subject
         * `subject_id` the subject id (or a list of id's), equivalent to the one used in browse_subject
         * `**kwargs` allow you to pass other parameters in the URL.
-    * `metadata(table_id, output_format, **kwargs)` gives access to metadata about specific tables.
+    * `metadata(table_id, output_format, **kwargs)` gives access to metadata about specific tables. Returns an instance of class `metadata_return` with properties `.full`,`.variables` and more (see the source for a full list).
         * `table_id` the table you want metadata about
         * `output_format` the level of detail in the output, can be `full`, `variables` or `values`
         * `**kwargs` allow you to pass other parameters in the URL.

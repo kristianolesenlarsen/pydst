@@ -2,8 +2,6 @@ import requests
 import csv
 import os
 
-
-
 """
 see http://api.statbank.dk/console#subjects for more examples of usage.
 """
