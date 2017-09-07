@@ -204,10 +204,10 @@ class Internals():
             return base
         # otherwise produce the link
         else:
-            for i in vars:
+            for i in [s.lower() for s in vars]:
                 base = base + "&" + i + "="
                 try:
-                    for j in values[i]:
+                    for j in {k.lower(): v for k, v in values.items()}[i]:
                         base = base + j + ','
                 except KeyError:
                     base = base + "*,"
