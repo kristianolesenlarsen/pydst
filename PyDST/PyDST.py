@@ -116,20 +116,19 @@ class DST():
 """
 metadata_return is the class returned from DST().metadata, it has properties containing different levels of detail in the metadata
 """
+
 class metadata_return():
     def __init__(self, x):
-        self.full_set = x
-        self.contact_info = self.full_set['contact']
-
-        self.descript = self.full_set['description']
-
-        self.txt = self.full_set['text']
+        self.full = x
+        self.contact = self.full['contact']
+        self.description = self.full['description']
+        self.text = self.full['text']
 
         output_vars = []
         for i in range(0,len(x['variables']) - 1):
             output_vars.append(x['variables'][i]['id'])
 
-        self.var = output_vars
+        self.variables = output_vars
 
         output_vals = {}
         for i in range(0,len(x['variables']) - 1):
@@ -139,31 +138,7 @@ class metadata_return():
                 values.append(x['variables'][i]['values'][j]['id'])
             output_vals[ID] = values
 
-        self.value = output_vals
-
-    @property
-    def text(self):
-        return self.txt
-
-    @property
-    def description(self):
-        return self.descript
-
-    @property
-    def contact(self):
-        return self.contact_info
-
-    @property
-    def full(self):
-        return self.full_set
-
-    @property
-    def variables(self):
-        return self.var
-
-    @property
-    def values(self):
-        return self.value
+        self.values = output_vals
 
 
 """ Internals():
