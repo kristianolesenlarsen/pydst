@@ -129,9 +129,26 @@ class metadata_return():
     """
     def __init__(self, x):
         self.full = x
-        self.contact = self.full['contact']
-        self.description = self.full['description']
-        self.text = self.full['text']
+
+        ### This try-except hell should allow for output even as i
+        ### continue to not update this, even though the DST API changes
+        try:
+            self.contact = self.full['contact']
+        except:
+            self.contact = None
+            print('No contact found')
+
+        try:
+            self.description = self.full['description']
+        except:
+            self.description = None
+            print('No description found')
+
+        try:
+            self.text = self.full['text']
+        except:
+            self.text = None
+            print('No text found')
 
         output_vars = []
         for i in range(0,len(x['variables']) - 1):
