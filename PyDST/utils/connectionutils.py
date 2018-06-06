@@ -45,6 +45,7 @@ def link_generator_with_error_handling(base, vars, values):
         return base
     # otherwise produce the link
     else:
+
         for i in [var.lower() for var in vars]:
             base = base + "&" + i + "="
             try:
@@ -52,7 +53,7 @@ def link_generator_with_error_handling(base, vars, values):
                     base = base + j + ','
             except KeyError:
                 base = base + "*,"
-                print("No values at", i,"setting values to all")
+                print("No values specificed for", i,"setting values to all ('*')")
             base = base[:-1]
     return base
 
