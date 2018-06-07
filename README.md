@@ -1,5 +1,6 @@
 
 # PyDST
+## This project is currently being reworked
 Goals of the revamp are:
 
 1) PyDST should be _very_ easy to extend with new functionality.
