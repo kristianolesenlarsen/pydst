@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 
 import PyDST as dst
 
-dst.DST().metadata('FOLK2')
+
 
 
 #define list of vars to get
@@ -21,6 +21,7 @@ getList = [["NAN1", ["TRANSAKT","PRISENHED","Tid"], {'Tid': ['*'], 'TRANSAKT': [
           ]
 
 #update_all(getList)
+
 
 # update all datasets with with the code currently tested in getData
 def update_all(get_list):
