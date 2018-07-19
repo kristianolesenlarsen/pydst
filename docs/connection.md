@@ -1,10 +1,16 @@
 # The `connection` class
 `connection` sets up a session containing basic information like language. In the future it will hopefully support a broader range of options.
 
+
+
+
+
 ## class `connection`               [[source]](https://github.com/Kristianuruplarsen/PyDST/blob/master/PyDST/connection/connection.py)
 
 _Parameters:_
 * language (`str`): must be either `'da'` or `'en'` for either Danish or English language.
+
+
 
 
 ### `connection.get_topics(topics, **kwargs)`
@@ -17,6 +23,8 @@ _Parameters:_
 _Returns:_
 * class [`topic_return`](return_classes/topic_return)
 
+
+
 ### `connection.get_tables(topics, **kwargs)`
 Gets information in the tables available in a given topic.
 
@@ -27,6 +35,8 @@ _Parameters:_
 _Returns:_
 * class [`table_return`](return_classes/table_return)
 
+
+
 ### `connection.get_metadata(table_id, **kwargs)`
 
 _Parameters:_
@@ -35,3 +45,17 @@ _Parameters:_
 
 _Returns:_
 * class [`metadata_return`](return_classes/metadata_return)
+
+
+
+### `connection.get_data(table_id, variables=False, values=False, **kwargs)`
+Send a request to DST's data retrieving API with specified parameters.
+
+_Parameters:_
+* table_id (`str`): table id, a list of available id's can be gained  from `connection.get_topics()` or the DST website.
+* variables (`list`, optional): which variables to get in the table will default to whatever DST serves as default if not set.
+* values (`dict`, optional): which levels of each variable to get, will default to all available levels if not set.
+* `**kwargs`: other variables passed in the URL.
+
+_Returns:_
+* class [`data_return`](return_classes/data_return)

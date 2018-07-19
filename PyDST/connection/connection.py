@@ -120,15 +120,14 @@ class connection:
 
 
     def get_data(self, table_id, variables=False, values=False, **kwargs):
-        """ Send a request to DST's API with specified parameters.
+        """ Send a request to DST's data retrieving API with specified parameters.
 
         Args:
-            id (str): table id, a list of available id's can be gained  from
+            table_id (str): table id, a list of available id's can be gained  from
                .subjects() or the DST website.
-            vars (list, optional): which variables to get in the table.
+            variables (list, optional): which variables to get in the table.
             values (dict, optional): which levels of each variable to get.
-            **kwargs: other variables passed in the URL, can be for example
-           'lang=en'
+            **kwargs: other variables passed in the URL.
 
          example request:
          DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],

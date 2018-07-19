@@ -1,5 +1,5 @@
 # The `table_return` class
-Contains the return of a table call. . This is a return class for responses from `connection.get_tables()`.
+Contains the return of a table call. This is a return class for responses from `connection.get_tables()`.
 
 _Parameters:_
 * response: a raw requests response served by `connection.get_tables()`.
