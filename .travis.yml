@@ -12,4 +12,3 @@ install:
 
 script:
   - echo foo
-  - python tests.py
