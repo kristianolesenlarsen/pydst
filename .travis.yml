@@ -1,0 +1,15 @@
+os:
+  -  linux
+  -  osx
+
+language: python
+
+python:
+  -  "3.6"
+
+install:
+  - pip install .
+
+script:
+  - echo foo
+  - python tests.py

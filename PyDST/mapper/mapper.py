@@ -6,6 +6,9 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 
 
+# This (hopefully) makes the data-path consistent across installs. 
+import pkg_resources
+DATA_PATH = pkg_resources.resource_filename('PyDST', 'data/')
 
 
 def KOMplot(data, color = 'INDHOLD', komvar = 'OMRÅDE', cmap = 'hot', title = 'Municipality map'):
@@ -20,13 +23,13 @@ def KOMplot(data, color = 'INDHOLD', komvar = 'OMRÅDE', cmap = 'hot', title = '
         None
     """
 
-    geo = gpd.read_file('PyDST/data/KOMMUNE.shp')
+    geo = gpd.read_file(DATA_PATH + 'KOMMUNE.shp')
     data = geo.merge(data, how = 'left', left_on = 'KOMNAVN', right_on = komvar)
 
     if not data.shape[0] == geo.shape[0]:
         raise ValueError('There are duplicated municiaplities in your data.')
 
-    data.plot(column = 'INDHOLD', colormap = cmap)
+    data.plot(column = 'INDHOLD', cmap = cmap)
     plt.axis('off')
     plt.title(title)
 

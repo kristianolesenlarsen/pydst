@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Kristianuruplarsen/PyDST.svg?branch=master)](https://travis-ci.org/Kristianuruplarsen/PyDST)
 
 # PyDST
 ## This project is currently being reworked
