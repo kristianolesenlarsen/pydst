@@ -1,4 +1,4 @@
-# The `table_return` class
+# The `table_return` class     [[source]](https://github.com/Kristianuruplarsen/PyDST/blob/master/PyDST/connection/connection.py)
 Contains the return of a table call. This is a return class for responses from `connection.get_tables()`.
 
 _Parameters:_
