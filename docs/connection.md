@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="tufte.css"/>
 # The `connection` class
 `connection` sets up a session containing basic information like language. In the future it will hopefully support a broader range of options.
 
