@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="tufte.css"/>
 
 ## Installation
 To install PyDST simply clone [the repository](https://github.com/Kristianuruplarsen/PyDST), then open your terminal/command prompt
