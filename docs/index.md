@@ -2,7 +2,7 @@
 
 ## Installation
 To install PyDST simply clone [the repository](https://github.com/Kristianuruplarsen/PyDST), then open your terminal/command prompt
-and use `cd` to navigate to the root folder of the repo (e.g. C:/Users/USER_NAME/Documents/github/PyDST on most windows machines).
+and use `cd` to navigate to the root folder of the repo (e.g. C:/Users/user_name/Documents/github/PyDST on most windows machines).
 while _in_ the root of the repo, run `pip install .` (or `python setup.py install`).
 
 
@@ -22,8 +22,9 @@ to set up a basic connection session with the DST API. We can then use the sessi
 
 ```python
 res = conn.get_tables('02')
-
 res.info
+```
+```
 >>> Active	Description	First observation	ID	Last updated	Latest observation	Unit	Variables
 >>> 0	True	Folketal den 1. i kvartalet	2008K1	FOLK1A	2018-05-08T08:00:00	2018K2	antal	[område, køn, alder, civilstand, tid]
 >>> 1	True	Folketal den 1. i kvartalet	2008K1	FOLK1B	2018-05-08T08:00:00	2018K2	antal	[område, køn, alder, statsborgerskab, tid]
