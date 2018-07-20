@@ -37,7 +37,6 @@ body { width: 100%;
        font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
        background-color: #fffff8;
        color: #111;
-       max-width: 1400px;
        counter-reset: sidenote-counter; }
 
 h1 { font-weight: 400;
