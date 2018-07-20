@@ -112,14 +112,14 @@ blockquote { font-size: 1.4rem; }
 blockquote p { width: 100%;
                margin-right: 40px; }
 
-blockquote footer { width: 55%;
+blockquote footer { width: 100%;
                     font-size: 1.1rem;
                     text-align: right; }
 
-section > p, section > footer, section > table { width: 55%; }
+section > p, section > footer, section > table { width: 100%; }
 
 /* 50 + 5 == 55, to be the same width as paragraph */
-section > ol, section > ul { width: 50%;
+section > ol, section > ul { width: 95%;
                              -webkit-padding-start: 5%; }
 
 li:not(:first-child) { margin-top: 0.25rem; }
@@ -129,7 +129,7 @@ figure { padding: 0;
          font-size: 100%;
          font: inherit;
          vertical-align: baseline;
-         max-width: 55%;
+         max-width: 100%;
          -webkit-margin-start: 0;
          -webkit-margin-end: 0;
          margin: 0 0 3em 0; }
