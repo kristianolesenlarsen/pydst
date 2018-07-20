@@ -91,6 +91,7 @@ p, ol, ul { font-size: 1.4rem;
 p { margin-top: 1.4rem;
     margin-bottom: 1.4rem;
     padding-right: 0;
+    width: 100%;
     vertical-align: baseline; }
 
 /* Chapter Epigraphs */
