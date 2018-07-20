@@ -3,15 +3,13 @@
 
 
 
-
-<br>
 ## class `connection`               [[source]](https://github.com/Kristianuruplarsen/PyDST/blob/master/PyDST/connection/connection.py)
 
 _Parameters:_
 * language (`str`): must be either `'da'` or `'en'` for either Danish or English language.
 
 
-<br>
+<br><br>
 ### `connection.get_data(table_id, variables=False, values=False, **kwargs)`
 Send a request to DST's data retrieving API with specified parameters.
 
@@ -24,8 +22,7 @@ _Parameters:_
 _Returns:_
 * class [`data_return`](return_classes/data_return)
 
-
-<br>
+<br><br>
 ### `connection.get_topics(topics, **kwargs)`
 Gets information for the topics/subtopics available.
 
@@ -37,7 +34,7 @@ _Returns:_
 * class [`topic_return`](return_classes/topic_return)
 
 
-<br>
+<br><br>
 ### `connection.get_tables(topics, **kwargs)`
 Gets information in the tables available in a given topic.
 
@@ -49,7 +46,7 @@ _Returns:_
 * class [`table_return`](return_classes/table_return)
 
 
-<br>
+<br><br>
 ### `connection.get_metadata(table_id, **kwargs)`
 
 _Parameters:_
