@@ -45,7 +45,11 @@ meta.variables
 Now to get the actual data, we will only get the variables `Tid` and `Område` (the actual count is also automatically delivered to us), and we only want observations from the second quarter of 2008 here. To carry out this request we run
 
 ```python
-resp = conn.get_data('FOLK1A', variables = ['Tid', 'Område'], values = {'Tid': ['2008K2']})
+resp = conn.get_data(
+                table_id = 'FOLK1A',
+                variables = ['Tid', 'Område'],
+                values = {'Tid': ['2008K2']}
+                     )
 data = resp.df
 ```
 
@@ -54,7 +58,11 @@ Finally lets use the municipality mapper to give a visual presentation of the da
 from PyDST import mapper
 import cmocean
 
-mapper.KOMplot(resp.df, cmap = cmocean.cm.curl, title = "")
+mapper.KOMplot(
+            resp.df,
+            cmap = cmocean.cm.curl,
+            title = ""
+              )
 ```
 (cmocean simply gives us nicer colors. To get it run `pip install cmocean` in your terminal). This gives us the following image:
 
