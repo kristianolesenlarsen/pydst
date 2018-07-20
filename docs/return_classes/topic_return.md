@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="tufte.css"/>
 # The `topic_return` class     [[source]](https://github.com/Kristianuruplarsen/PyDST/blob/master/PyDST/connection/connection.py)
 Contains the return of a topic call. This is a return class for responses from [`connection.get_topics()`](connection).
 
