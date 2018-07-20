@@ -1,3 +1,4 @@
 theme: jekyll-theme-minimal
 title: Welcome to the PyDST documentation
 description: PyDST is a python script for accessing the API of Statistics Denmark. It is currently very early in development, but feel free to use it. If you find flaws please submit a pull request.
+highlighter: rouge
