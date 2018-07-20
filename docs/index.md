@@ -38,15 +38,15 @@ So clearly topic "02" is about population statistics. A next step might be to re
 
 ```python
 meta = conn.get_metadata('FOLK1A')
-
 meta.variables
+```
+```
 >>> ['område', 'køn', 'alder', 'civilstand', 'tid']
 ```
 Now to get the actual data, we will only get the variables `Tid` and `Område` (the actual count is also automatically delivered to us), and we only want observations from the second quarter of 2008 here. To carry out this request we run
 
 ```python
 resp = conn.get_data('FOLK1A', variables = ['Tid', 'Område'], values = {'Tid': ['2008K2']})
-
 data = resp.df
 ```
 
