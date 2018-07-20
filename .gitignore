@@ -27,7 +27,6 @@ $RECYCLE.BIN/
 *.pyc
 __pycache__/*
 *.gif
-*.html
 /dist/
 /*.egg-info
 
