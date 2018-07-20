@@ -73,4 +73,4 @@ mapper.KOMplot(
 
 
 ## Small notes for the curious
-* Do not make your documentation in this way. It is a lot to maintain, and Sphinx can probably do it better. I'm only doing this because PyDST is a relatively simple, and i don't have time to learn Sphinx.
+* Do not make your documentation in this way. It is a lot to maintain, and Sphinx can probably do it better. I'm only doing this because PyDST is relatively simple, and i don't have time to learn Sphinx.
