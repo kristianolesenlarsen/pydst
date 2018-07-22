@@ -34,7 +34,6 @@ class connection:
                                 # neat metadata etc. will be to much work
 
 
-
     def get_topics(self, topics, **kwargs):
         """ Gets information for the topics/subtopics available
 
@@ -47,7 +46,6 @@ class connection:
         Returns:
             class topic_return
         """
-
         if isinstance(topics, str):
             base = f"https://api.statbank.dk/v1/subjects/{topics}?format={self.format}"
         elif isinstance(topics, list):
@@ -107,7 +105,7 @@ class connection:
         if isinstance(table_id, str):
             base = f"https://api.statbank.dk/v1/tableinfo/{table_id}?format={self.format}"
         else:
-            raise ValueError(f"'{topics}' is not a valid topics-list, it must be str.")
+            raise ValueError(f"'{str(topics)}' is not a valid topics-list, it must be str.")
 
         base = cutils.handle_kwargs(base, **kwargs)
         response = requests.get(base)
@@ -133,17 +131,21 @@ class connection:
          DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
          {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
          """
+        if not isinstance(table_id, str):
+            raise TypeError(f"Supplied table_id {table_id} is not of type str")
         # if vars not set, set it to ''
         #if values is not set, set it to * - meaning get all levels
         if not variables and not values:
             print("""
             No variables or values selected! Getting API default
             """)
+
         if not variables and values:
             print("""
             No variables selected! Using value-dictionary keys as variables
             """)
             variables = list(values.keys())
+
         if variables and not values:
             print("""
             No values selected! Setting values to all ('*')

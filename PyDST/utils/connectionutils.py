@@ -35,6 +35,17 @@ def handle_kwargs(link, **kwargs):
 
 
 
+def list_from_comma_separated_string(s, error):
+    """ Tries to split a string at the commas. Raises an error if this is not
+    possible.
+    """
+    try:
+        s = [var.strip() for var in s.split(',')]
+    except AttributeError:
+        raise AttributeError(error)
+    return s
+
+
 def link_generator_with_error_handling(base, vars, values):
     """ Generate urls to send of to DST
 
@@ -45,6 +56,19 @@ def link_generator_with_error_handling(base, vars, values):
         return base
     # otherwise produce the link
     else:
+
+        # first lets allow both 'a,b,c' and ['a','b','c'] for variables
+        if not isinstance(vars, list):
+            vars = list_from_comma_separated_string(vars, f"{str(vars)} is not a valid variable list. Must be str separated by commas or list.")
+
+        if not isinstance(values, dict):
+            raise TypeError('Values must be suplied as a dict.')
+
+        # Then make sure all values are supplied as lists
+        for var,value in values.items():
+            if not isinstance(value, list):
+                values[var] = list_from_comma_separated_string(value, f"{str(value)} is not a valid sequence of values.")
+
 
         for i in [var.lower() for var in vars]:
             base = base + "&" + i + "="
