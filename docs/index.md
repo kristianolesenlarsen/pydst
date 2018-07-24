@@ -3,6 +3,11 @@ To install PyDST simply clone [the repository](https://github.com/Kristianurupla
 and use `cd` to navigate to the root folder of the repo (e.g. C:/Users/USER_NAME/Documents/github/PyDST on most windows machines).
 while _in_ the root of the repo, run `pip install .` (or `python setup.py install`).
 
+## Documentation
+* [connecting to the API](connection)
+* [mapping](map)
+
+
 ## Example usage
 The module is intended to be easy and intuitive to use. After installing the package simply run
 ```python
@@ -53,11 +58,6 @@ mapper.KOMplot(resp.df, cmap = cmocean.cm.curl, title = "")
 <p align="center">
 <img src="img/komplot.png" alt="windmap">
 </p>
-
-## Documentation
-* [connecting to the API](connection)
-* [mapping](map)
-
 
 
 ## Small notes for the curious
