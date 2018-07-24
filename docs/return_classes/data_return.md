@@ -7,3 +7,8 @@ _Parameters:_
 _Attributes:_
 * `raw`: raw response
 * `df`: pandas dataframe with the returned content
+
+
+<br>
+<br>
+[back](../connection)

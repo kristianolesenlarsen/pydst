@@ -12,3 +12,7 @@ _Attributes:_
 * `last_updated`: last date of update of the table
 * `active`: active status of table
 * `contacts`: contact info on table maintainer if it exists
+
+<br>
+<br>
+[back](../connection)
