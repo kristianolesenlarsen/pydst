@@ -12,7 +12,8 @@ setup(name='PyDST',
       install_requires=[
         'matplotlib',
         'pandas',
-        'requests',
-        'geopandas'
+        'requests'
       ],
 zip_safe=False)
+
+# Also geopandas is a requirement but you need to get this through conda forge
