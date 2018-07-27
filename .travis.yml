@@ -6,8 +6,19 @@ language: python
 python:
   -  "3.6"
 
+
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
+  - conda update --yes conda
+
 install:
-  - pip install .
+  - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
+  - source activate test
+  - conda install --yes geopandas
+  - pip install . # acturally installs PyDST
 
 before_script: # configure a headless display to test plot generation
 - "export DISPLAY=:99.0"
@@ -15,5 +26,4 @@ before_script: # configure a headless display to test plot generation
 - sleep 3 # give xvfb some time to start
 
 script:
-  - conda install -c conda-forge geopandas
   - python tests.py
