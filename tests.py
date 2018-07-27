@@ -26,5 +26,5 @@ def geopandas():
 if __name__ == '__main__':
     print('assessing that all geo-files are installed.')
     are_files_installed()
-    print('Checking if geopandas works')
-    geopandas()
+#    print('Checking if geopandas works')
+#    geopandas()

@@ -3,5 +3,4 @@
 # to the user after installing PyDST.
 
 from PyDST.connection.connection import *
-from PyDST.mapper import mapper
 from PyDST.utils import utils
