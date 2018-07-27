@@ -11,8 +11,11 @@ def are_files_installed():
 def geopandas():
     import geopandas as gpd
     try:
+        print('loaded files as gpd object...')
         x = gpd.read_file(DATA_PATH + '/KOMMUNE.shp')
+        print('plotted map...')
         x.plot()
+        x = True
     except:
         x = None
 
