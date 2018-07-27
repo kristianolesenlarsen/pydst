@@ -186,6 +186,7 @@ class data_return:
     def __init__(self, response):
         self.raw = response
         self.df = pd.read_csv(StringIO(self.raw.text), sep = ';')
+        self.dict = self.df.to_dict('list')
 
 
 
