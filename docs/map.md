@@ -1,1 +1,0 @@
-## The `mapping` class

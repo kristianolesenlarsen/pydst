@@ -8,23 +8,7 @@ def are_files_installed():
                                        'SOGN.dbf', 'SOGN.prj', 'SOGN.shp', 'SOGN.shx'])
         print('Files are properly installed.')
 
-def geopandas():
-    import geopandas as gpd
-
-    try:
-        x = gpd.read_file(DATA_PATH + '/KOMMUNE.shp')
-        print('loaded files as gpd object...')
-        x.plot()
-        print('plotted map...')
-
-    except:
-        raise AssertionError('Cannot use geopandas.')
-
-    print('Geopandas is working properly.')
-
 
 if __name__ == '__main__':
     print('assessing that all geo-files are installed.')
     are_files_installed()
-#    print('Checking if geopandas works')
-#    geopandas()

@@ -7,7 +7,6 @@ while _in_ the root of the repo, run `pip install .` (or `python setup.py instal
 
 ## Documentation
 * [connecting to the API](connection)
-* [mapping](map)
 
 
 ## Example usage
@@ -53,18 +52,7 @@ resp = conn.get_data(
 data = resp.df
 ```
 
-Finally lets use the municipality mapper to give a visual presentation of the danish population
-```python
-from PyDST import mapper
-import cmocean
-
-mapper.KOMplot(
-            resp.df,
-            cmap = cmocean.cm.curl,
-            title = ""
-              )
-```
-(cmocean simply gives us nicer colors. To get it run `pip install cmocean` in your terminal). This gives us the following image:
+Finally we can use GeoPandas and cmocean (not dependencies) to produce a neat map showing the data:
 
 <p align="center">
 <img src="img/komplot.png" alt="windmap">
