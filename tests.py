@@ -1,14 +1,10 @@
 import os
-import pkg_resources
-DATA_PATH = pkg_resources.resource_filename('PyDST', 'data/')
+import PyDST
 
 
-def are_files_installed():
-        assert set(os.listdir(DATA_PATH)) == set(['KOMMUNE.dbf', 'KOMMUNE.prj', 'KOMMUNE.shp', 'KOMMUNE.shx',
-                                       'SOGN.dbf', 'SOGN.prj', 'SOGN.shp', 'SOGN.shx'])
-        print('Files are properly installed.')
+def handle_kwargs_test():
+    assert PyDST.cutils.handle_kwargs('asd', **{'a':1,'b':2}) == 'asd&a=1&b=2'
 
 
 if __name__ == '__main__':
-    print('assessing that all geo-files are installed.')
-    are_files_installed()
+    handle_kwargs_test()
