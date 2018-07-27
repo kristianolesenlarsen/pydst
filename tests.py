@@ -8,6 +8,16 @@ def are_files_installed():
     assert set(os.listdir(DATA_PATH)) == set(['KOMMUNE.dbf', 'KOMMUNE.prj', 'KOMMUNE.shp', 'KOMMUNE.shx',
                                        'SOGN.dbf', 'SOGN.prj', 'SOGN.shp', 'SOGN.shx'])
 
+def geopandas():
+    import geopandas as gpd
+    try:
+        x = gpd.read_file(DATA_PATH + '/KOMMUNE.shp')
+    except:
+        x = None
+
+    assert x is not None
+
 
 if __name__ == '__main__':
     are_files_installed()
+    geopandas()
