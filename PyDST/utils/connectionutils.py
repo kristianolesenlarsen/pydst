@@ -6,6 +6,19 @@ import pandas
 flatten = lambda l: list(set([item for sublist in l for item in sublist]))
 
 
+
+def coerce_input_type_to_str(input):
+    """ Checks if a input is string or can be coerced to one.
+    """
+    if isinstance(input, str):
+        output = input
+    elif isinstance(input, list):
+        output = ','.join(input)
+    else:
+        raise ValueError(f"'{topics}' is not a valid topics-list, it must be str of list")
+    return output
+
+
 def raise_or_none(response, output):
     """ handle http errors
      - response: a resquests.get() answer
