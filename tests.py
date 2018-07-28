@@ -44,3 +44,5 @@ if __name__ == '__main__':
     connection_verbose()
     print('testing get_topics()')
     test_get_topics()
+
+    print('FINISHED TESTING')
