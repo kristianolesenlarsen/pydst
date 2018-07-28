@@ -7,7 +7,9 @@
 
 _Parameters:_
 * language (`str`): must be either `'da'` or `'en'` for either Danish or English language.
-
+* store (`bool`): If store is set to `True` a list in the class instance `connection.data` is populated with API responses as you make the calls. (Default: `False`)
+* retrn (`bool`): If retrn is set to `True` the connection methods actually return the API responses. (Default: `True`)
+* Verbose (`bool`): should the class be verbose? (Default: `True`)
 
 <br><br>
 ### `connection.get_data(table_id, variables=False, values=False, **kwargs)`
@@ -15,7 +17,7 @@ Send a request to DST's data retrieving API with specified parameters.
 
 _Parameters:_
 * table_id (`str`): table id, a list of available id's can be gained  from `connection.get_topics()` or the DST website.
-* variables (`list`, optional): which variables to get in the table will default to whatever DST serves as default if not set.
+* variables (`str`, `list(str)`, optional): which variables to get in the table will default to whatever DST serves as default if not set.
 * values (`dict`, optional): which levels of each variable to get, will default to all available levels if not set.
 * `**kwargs`: other variables passed in the URL.
 

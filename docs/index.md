@@ -10,6 +10,8 @@ while _in_ the root of the repo, run `pip install .` (or `python setup.py instal
 
 
 ## Example usage
+This is one very simple example documenting the use. There are more examples to be found at the [examples page](examples).
+
 The module is intended to be easy and intuitive to use. After installing the package simply run
 ```python
 import PyDST
