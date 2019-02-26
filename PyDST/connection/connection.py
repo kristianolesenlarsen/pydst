@@ -3,10 +3,10 @@
 # the DST api to retrieve data and return them as pandas dataframes.
 # The main class takes a
 from PyDST.utils import connectionutils as cutils
-from PyDST.connection.return_classes import (data_return,
-                                             metadata_return,
-                                             topic_return,
-                                             table_return)
+from .return_classes import (data_return,
+                            metadata_return,
+                            topic_return,
+                            table_return)
 import pandas as pd
 import requests
 
@@ -26,6 +26,7 @@ class connection:
 
     def __init__(self, language = 'en',
                        store = False,
+                       fmt = 'CSV',
                        retrn = True,
                        verbose = True):
         """ Initiate datagetter
@@ -43,7 +44,7 @@ class connection:
         # only print if verbose is true function
         self.vprint = print if verbose else lambda *a, **k: None
         # This shouldn't be changed for now
-        self.format = 'JSON'
+        self.fmt = fmt
         # for internal storage of the return values. Allows to get multiple data
         # with a single connection.
         self.topics = []
@@ -84,7 +85,7 @@ class connection:
 
         self.vprint(f"Getting all topics under topic code(s) {topics}")
 
-        base = f"https://api.statbank.dk/v1/subjects/{topics}?format={self.format}"
+        base = f"https://api.statbank.dk/v1/subjects/{topics}?format=JSON"
         base = cutils.handle_kwargs(base, **kwargs)
 
         # get the data
@@ -118,7 +119,7 @@ class connection:
         topics = cutils.coerce_input_type_to_str(topics)
         self.vprint("Getting all tables under topic code(s) {topics}")
 
-        base = f"https://api.statbank.dk/v1/tables?subjects={topics}&format={self.format}"
+        base = f"https://api.statbank.dk/v1/tables?subjects={topics}&format=JSON"
         base = cutils.handle_kwargs(base, **kwargs)
         response = requests.get(base)
 
@@ -144,7 +145,7 @@ class connection:
         """
         if isinstance(table_id, str):
             self.vprint(f"Getting metadata for table {table_id}")
-            base = f"https://api.statbank.dk/v1/tableinfo/{table_id}?format={self.format}"
+            base = f"https://api.statbank.dk/v1/tableinfo/{table_id}?format=JSON"
         else:
             raise ValueError(f"'{str(topics)}' is not a valid topics-list, it must be str.")
 
@@ -209,7 +210,7 @@ class connection:
         self.vprint(f"""Getting table {table_id}, variables are {str(variables)}
         values are {str(values)}""")
         # set the base link to get table with id = id
-        base = f"http://api.statbank.dk/v1/data/{table_id}/CSV?lang={self.lang}"
+        base = f"http://api.statbank.dk/v1/data/{table_id}/{self.fmt}?lang={self.lang}"
         # generate the API call link
         base = cutils.link_generator_with_error_handling(base, variables, values)
         # add kwargs to link
