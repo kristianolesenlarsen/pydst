@@ -196,7 +196,7 @@ class connection:
 
         return table_id, variables, values
 
-    def get_data(self, table_id, variables = False, values = False, **kwargs):
+    def _get_dump(self, table_id, variables = False, values = False, **kwargs):
         """ Send a request to DST's data retrieving API with specified parameters.
         If you have specificed a streaming format the data will be returned one 
         row at a time. Otherwise it is all downloaded in one round.
