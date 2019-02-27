@@ -7,6 +7,7 @@
 
 _Parameters:_
 * language (`str`): must be either `'da'` or `'en'` for either Danish or English language.
+* fmt (`str`): the data format to use. (`'CSV'` and `'BULK'` are tested). If fmt is set to BULK the connection gets the data as a stream instead of one large payload.
 * store (`bool`): If store is set to `True` a list in the class instance `connection.data` is populated with API responses as you make the calls. (Default: `False`)
 * retrn (`bool`): If retrn is set to `True` the connection methods actually return the API responses. (Default: `True`)
 * Verbose (`bool`): should the class be verbose? (Default: `True`)
