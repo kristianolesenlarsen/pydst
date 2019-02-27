@@ -16,7 +16,10 @@ class data_return:
         self._vars = variables
         self._vals = values
         self.raw = response
-        self.df = pd.read_csv(StringIO(self.raw.text), sep = ';')
+        if type(response) == str:
+            self.df = pd.read_csv(StringIO(self.raw), sep = ';')            
+        else:
+            self.df = pd.read_csv(StringIO(self.raw.text), sep = ';')
         self.dict = self.df.to_dict('list')
 
     def __repr__(self):

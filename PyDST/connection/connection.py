@@ -162,22 +162,9 @@ class connection:
         else:
             response.raise_for_status()
 
-
-
-    def get_data(self, table_id, variables=False, values=False, **kwargs):
-        """ Send a request to DST's data retrieving API with specified parameters.
-
-        Args:
-            table_id (str): table id, a list of available id's can be gained  from
-               .subjects() or the DST website.
-            variables (list, optional): which variables to get in the table.
-            values (dict, optional): which levels of each variable to get.
-            **kwargs: other variables passed in the URL.
-
-         example request:
-         DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
-         {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
-         """
+    def _typefixes(self, table_id, variables, values):
+        """ Check and construct the inputs to data getter methods.
+        """
         if not isinstance(table_id, str):
             raise TypeError(f"Supplied table_id {table_id} is not of type str")
         # if vars not set, set it to ''
@@ -206,6 +193,90 @@ class connection:
                     values[i] = ['*']
             else:
                 raise ValueError('Could not construct values.')
+
+        return table_id, variables, values
+
+    def get_data(self, table_id, variables = False, values = False, **kwargs):
+        """ Send a request to DST's data retrieving API with specified parameters.
+        If you have specificed a streaming format the data will be returned one 
+        row at a time. Otherwise it is all downloaded in one round.
+
+        Args:
+            table_id (str): table id, a list of available id's can be gained  from
+               .subjects() or the DST website.
+            variables (list, optional): which variables to get in the table.
+            values (dict, optional): which levels of each variable to get.
+            **kwargs: other variables passed in the URL.
+
+         example request:
+         DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
+         {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+         """
+        if self.fmt in ['BULK', 'SDMXCOMPACT', 'SDMXGENERIC']:
+            print("Using streaming format for data retrieval.")
+            return self._get_stream(table_id, variables = False, values = False, **kwargs)
+        else:
+            print("Retrieving data in one package.")
+            return self._get_dump(table_id, variables = False, values = False, **kwargs)
+
+
+
+    def _get_stream(self, table_id, variables = False, values = False, **kwargs):
+        """ Send a request to DST's data retrieving API with specified parameters.
+        This version uses streaming instead of downloading the whole dataset at once.
+
+        Args:
+            table_id (str): table id, a list of available id's can be gained  from
+               .subjects() or the DST website.
+            variables (list, optional): which variables to get in the table.
+            values (dict, optional): which levels of each variable to get.
+            **kwargs: other variables passed in the URL.
+
+         example request:
+         DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
+         {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+         """
+        table_id, variables, values = self._typefixes(table_id, variables, values)
+
+        self.vprint(f"""Getting table {table_id}, variables are {str(variables)}
+        values are {str(values)}""")
+        # set the base link to get table with id = id
+        base = f"http://api.statbank.dk/v1/data/{table_id}/{self.fmt}?lang={self.lang}"
+        # generate the API call link
+        base = cutils.link_generator_with_error_handling(base, variables, values)
+        # add kwargs to link
+        base = cutils.handle_kwargs(base, **kwargs)
+
+        r = requests.get(base, stream = True)
+
+        text = ''
+        for line in r.iter_lines(decode_unicode=True):
+            if line: 
+                text += f'{line}\n'
+        text 
+        if self.store_response:
+            self.data.append(data_return(text, table_id, variables, values))
+        if self.return_response:
+            return data_return(text, table_id, variables, values)
+
+
+
+    def _get_data(self, table_id, variables=False, values=False, **kwargs):
+        """ Send a request to DST's data retrieving API with specified parameters.
+        This method downloads the entire dataset before processing. 
+
+        Args:
+            table_id (str): table id, a list of available id's can be gained  from
+               .subjects() or the DST website.
+            variables (list, optional): which variables to get in the table.
+            values (dict, optional): which levels of each variable to get.
+            **kwargs: other variables passed in the URL.
+
+         example request:
+         DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
+         {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
+         """
+        table_id, variables, values = self._typefixes(table_id, variables, values)
 
         self.vprint(f"""Getting table {table_id}, variables are {str(variables)}
         values are {str(values)}""")
