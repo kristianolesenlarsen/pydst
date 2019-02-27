@@ -1,5 +1,5 @@
 import pandas as pd
-from io import StringIO
+from io import BytesIO, StringIO
 
 # The following classes are containers for what the connection returns when used
 
@@ -16,8 +16,8 @@ class data_return:
         self._vars = variables
         self._vals = values
         self.raw = response
-        if type(response) == str:
-            self.df = pd.read_csv(StringIO(self.raw), sep = ';')            
+        if isinstance(response, BytesIO):
+            self.df = pd.read_csv(self.raw, sep = ';')            
         else:
             self.df = pd.read_csv(StringIO(self.raw.text), sep = ';')
         self.dict = self.df.to_dict('list')

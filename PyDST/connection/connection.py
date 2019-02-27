@@ -7,6 +7,7 @@ from .return_classes import (data_return,
                             metadata_return,
                             topic_return,
                             table_return)
+import io 
 import pandas as pd
 import requests
 
@@ -214,10 +215,10 @@ class connection:
          """
         if self.fmt in ['BULK', 'SDMXCOMPACT', 'SDMXGENERIC']:
             print("Using streaming format for data retrieval.")
-            return self._get_stream(table_id, variables = False, values = False, **kwargs)
+            return self._get_stream(table_id, variables = variables, values = values, **kwargs)
         else:
             print("Retrieving data in one package.")
-            return self._get_dump(table_id, variables = False, values = False, **kwargs)
+            return self._get_dump(table_id, variables = variables, values = values, **kwargs)
 
 
 
@@ -236,6 +237,12 @@ class connection:
          DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
          {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
          """
+
+        if 'chunk_size' in kwargs:
+            csize = kwargs['chunk_size']
+        else:
+            csize = 1024
+        
         table_id, variables, values = self._typefixes(table_id, variables, values)
 
         self.vprint(f"""Getting table {table_id}, variables are {str(variables)}
@@ -249,15 +256,15 @@ class connection:
 
         r = requests.get(base, stream = True)
 
-        text = ''
-        for line in r.iter_lines(decode_unicode=True):
-            if line: 
-                text += f'{line}\n'
-        text 
-        if self.store_response:
-            self.data.append(data_return(text, table_id, variables, values))
-        if self.return_response:
-            return data_return(text, table_id, variables, values)
+        with io.BytesIO() as mem_obj:
+            for chunk in r.iter_content(csize):
+                mem_obj.write(chunk)
+            mem_obj.seek(0)
+
+            if self.store_response:
+                self.data.append(data_return(mem_obj, table_id, variables, values))
+            if self.return_response:
+                return data_return(mem_obj, table_id, variables, values)
 
 
 
