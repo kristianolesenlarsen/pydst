@@ -222,7 +222,7 @@ class connection:
 
 
 
-    def _get_stream(self, table_id, variables = False, values = False, **kwargs):
+    def _get_stream(self, table_id, variables = False, values = False, chunk_size = 1024, **kwargs):
         """ Send a request to DST's data retrieving API with specified parameters.
         This version uses streaming instead of downloading the whole dataset at once.
 
@@ -236,13 +236,7 @@ class connection:
          example request:
          DST().get_data("FOLK1A", ["Tid","CIVILSTAND"],
          {'Tid': ["*"], 'CIVILSTAND': ["TOT","U"]})
-         """
-
-        if 'chunk_size' in kwargs:
-            csize = kwargs['chunk_size']
-        else:
-            csize = 1024
-        
+         """        
         table_id, variables, values = self._typefixes(table_id, variables, values)
 
         self.vprint(f"""Getting table {table_id}, variables are {str(variables)}
@@ -257,7 +251,7 @@ class connection:
         r = requests.get(base, stream = True)
 
         with io.BytesIO() as mem_obj:
-            for chunk in r.iter_content(csize):
+            for chunk in r.iter_content(chunk_size):
                 mem_obj.write(chunk)
             mem_obj.seek(0)
 
