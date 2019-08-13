@@ -1,8 +1,6 @@
 
 ## Installation
-To install PyDST simply clone [the repository](https://github.com/Kristianuruplarsen/PyDST), then open your terminal/command prompt
-and use `cd` to navigate to the root folder of the repo (e.g. C:/Users/user_name/Documents/github/PyDST on most windows machines).
-while _in_ the root of the repo, run `pip install -e .` (Mind the .).
+To install PyDST simply run `pip install git+https://github.com/Kristianuruplarsen/PyDST`.
 
 
 ## Documentation
