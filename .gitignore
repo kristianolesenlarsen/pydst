@@ -1,12 +1,21 @@
-
-random_testing.py
-PyDST/local_db/test_file.sqlite
-
-
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
 
+.vscode
+.pytest_cache
+.ipynb_checkpoints
+
+Makefile
+make.bat
+Pipfile 
+Pipfile.lock
+*.ipynb
+build/*
+build
+
+source
+source/*
 # Folder config file
 Desktop.ini
 
@@ -25,12 +34,15 @@ $RECYCLE.BIN/
 #project specific ignores
 *.csv
 *.pyc
-__pycache__/*
+*__pycache__/*
 *.gif
 /dist/
 /*.egg-info
 
 tests/*
+
+*__pycache__*
+*.pyc
 
 # =========================
 # Operating System Files

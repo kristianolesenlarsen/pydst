@@ -1,4 +1,0 @@
-theme: jekyll-theme-minimal
-title: PyDST
-description: A python script for accessing the API of Statistics Denmark. <br><br> If you find flaws, please submit a pull request.
-show_downloads: false
