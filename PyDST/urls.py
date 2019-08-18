@@ -1,7 +1,5 @@
-import requests
 import io 
-
-from requests import Session, Request
+from requests import Request
 from urllib.parse import urljoin
 
 
