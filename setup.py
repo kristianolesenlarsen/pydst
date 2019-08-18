@@ -8,7 +8,6 @@ setup(name='statisticsdenmark',
       license='MIT',
       packages=find_packages(),
       install_requires=[
-        'pandas',
         'requests',
         'pytest'
       ],
