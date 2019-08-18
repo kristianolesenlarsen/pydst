@@ -11,11 +11,13 @@ make.bat
 Pipfile 
 Pipfile.lock
 *.ipynb
-build/*
-build
 
 source
 source/*
+build
+build/*
+
+build/doctrees
 # Folder config file
 Desktop.ini
 

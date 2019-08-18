@@ -2,15 +2,20 @@
 ''' 
 This is the base class for the interface with the 
 Statistics Denmark API. 
+
+This class does not handle converting the results 
+to pandas DataFrames. Instead it either a requests
+response object or a bytes object, in the case of 
+streaming download.
 '''
 
 import io
 import requests
 
-from .urls import prepare_request, send_request
+from .query import prepare_request, send_request
 
 
-class StatDenmarkAPI:
+class StatBank:
 
     def __init__(self,
                  fmt = 'json', 
@@ -30,9 +35,8 @@ class StatDenmarkAPI:
             Language of retrieved material (da/en): Defaults to english (en).
 
         session
-            A requests session to be used for making all requests. 
-            Is left as None by default in which case a session is 
-            created automatically.
+            A requests session to be used for making all requests. Is left as 
+            None by default in which case a session is created automatically.
 
         stream
             Should the data be streamed, defaults to False.
@@ -55,6 +59,14 @@ class StatDenmarkAPI:
             self.session = session
 
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}(fmt={self.fmt}, lang={self.lang}, stream={self.stream}, chunk_size={self.csize})'
+
+
+    def __str__(self):
+        return f"{self.__class__.__name__}, streaming is {'on' if self.stream else 'off'}"
+
+
     def data(self, table, variables, **options):
         ''' 
         Retrieve data from the /data endpoint of the DST api.
@@ -65,9 +77,9 @@ class StatDenmarkAPI:
             ID of the table to pull data from. E.g. ``'FOLK1A'``
 
         variables dict
-            A dictionary with variable names as keys and the 
-            values to select as values. For example ``{'Tid': ['2008k1', '2008k2']}``
-            selects only observations where ``Tid`` is either of the two values in the 
+            A dictionary with variable names as keys and the values to select as
+            values. For example ``{'Tid': ['2008k1', '2008k2']}`` selects only 
+            observations where ``Tid`` is either of the two values in the 
             supplied list.
 
         **options
@@ -78,7 +90,8 @@ class StatDenmarkAPI:
             delimiter str
                 Delimiter to use (only valid if ``format=csv``)
             valuePresentation str 
-                Presentation of values as codes or values. Valid options are ``'Code'``, ``'Value'`` and ``'CodeAndValue'``.
+                Presentation of values as codes or values. Valid options are 
+                ``'Code'``, ``'Value'`` and ``'CodeAndValue'``.
             timeOrder str:
                 Time order of observations. Either Ascending or Descending
 
@@ -102,8 +115,8 @@ class StatDenmarkAPI:
         Parameters
         ----------
         Subjects list/str
-            Either a single subject code supplied as a string (e.g. ``02``)
-            or a sequence of such subject codes supplied as a list.
+            Either a single subject code supplied as a string (e.g. ``02``) or a
+            sequence of such subject codes supplied as a list.
         
         **options
             See below.
@@ -130,8 +143,7 @@ class StatDenmarkAPI:
 
 
     def tables(self, subjects, **options):
-        ''' Retrieve data from the /tables endpoint of the 
-            DST api.   
+        ''' Retrieve data from the /tables endpoint of the DST api.   
 
         Parameters
         ----------
@@ -162,8 +174,7 @@ class StatDenmarkAPI:
 
 
     def metadata(self, table):
-        ''' Retrieve data from the /tableinfo endpoint of the 
-            DST api.
+        ''' Retrieve data from the /tableinfo endpoint of the DST api.
 
         Parameters
         ----------

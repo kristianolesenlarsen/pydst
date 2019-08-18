@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-setup(name='PyDST',
+setup(name='statisticsdenmark',
       version='0.2',
-      description='Grab data from Statistics Denmark',
+      description='Grab data from the Statistics Denmark API',
       url='http://github.com/KristianUrupLarsen/PyDST',
       author='Kristian Urup Olesen Larsen',
       license='MIT',
