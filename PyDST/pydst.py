@@ -131,7 +131,6 @@ def get_data(table_id,
         -------
         requests.models.Response        
     '''
-    # TODO: Write this function
     fmt = fmt if fmt != 'json' else 'jsonstat'
     url = f"{BASE_URL}/data/{table_id}/{fmt}"    
     url = add_url_parameters(url=url,
@@ -143,6 +142,3 @@ def get_data(table_id,
                              **{k:coerce_input_to_str(v) for k, v in variables.items()}
                              )
     return requests.get(url)
-
-
-

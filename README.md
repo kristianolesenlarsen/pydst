@@ -1,27 +1,28 @@
-[![Build Status](https://travis-ci.org/Kristianuruplarsen/PyDST.svg?branch=master)](https://travis-ci.org/Kristianuruplarsen/PyDST)
-
-# PyDST
-Documentation etc. at [the project pages](https://kristianuruplarsen.github.io/PyDST/).
-
-## This project is currently being reworked
-Goals of the revamp are:
-
-1) PyDST should be _very_ easy to extend with new functionality.
-2) PyDST should have a segmented codebase to fulfill 1) and to make collaboration easy.
-3) PyDST shuld not only currate data, but also handle storage, visualization etc.
+# pydst
+Simple functions for pulling data from the API of statistics denmark. 
 
 
-## functionality
-
-You should be able to get data as pandas dataframes from the API with
+## Usage
+Look up data topics with 
 ```python
-from PyDST import connection
+alltopics = pydst.get_topics()
+alltopics.json()
 ```
-
-All other functions should be stored in e.g.
+To see subtopics you can do
 ```python
-from PyDST import plotting
-from PyDST import db_storage
+alltopics = pydst.get_topics(topics = '02', recursive = True)
+alltopics.json()
 ```
-
-Everything must be segmented in folders like `connection` which has a clearly stated input and output.
+To get the table id's associated with a specific topic use
+```python
+tables = pydst.get_tables(topics = '01')
+tables.json()
+```
+Metadata about a table, including information on what variables are available in the data can be retrieved with
+```python
+pydst.get_metadata('FOLK1A').json()
+```
+To get an actual dataset 
+```python
+pydst.get_data('FOLK1A', variables = {'OMRÅDE': '*', 'Tid':, '*'}).json()
+```

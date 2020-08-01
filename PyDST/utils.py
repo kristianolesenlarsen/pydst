@@ -1,7 +1,4 @@
 
-from io import BytesIO
-
-
 def coerce_input_to_str(data):
     ''' Coerce url data to a comma separated string.
         e.g. ['a','b'] becomes 'a,b' while 'c,d' is
