@@ -1,7 +1,6 @@
 
-random_testing.py
-PyDST/local_db/test_file.sqlite
-
+test.ipynb0
+.pytest_cache
 
 # Windows image file caches
 Thumbs.db
