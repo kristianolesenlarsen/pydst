@@ -142,3 +142,4 @@ def get_data(table_id,
                              **{k:coerce_input_to_str(v) for k, v in variables.items()}
                              )
     return requests.get(url)
+
