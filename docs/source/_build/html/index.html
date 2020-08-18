@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to pydst’s documentation! &#8212; pydst 0.1.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-pydst-s-documentation">
+<h1>Welcome to pydst’s documentation!<a class="headerlink" href="#welcome-to-pydst-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="module-pydst.pydst">
+<span id="requesting-data"></span><h1>Requesting data<a class="headerlink" href="#module-pydst.pydst" title="Permalink to this headline">¶</a></h1>
+<p>Make requests to the DST API. Results are returned as raw requests responses 
+to facilitate custom postprocessing.</p>
+<dl class="py function">
+<dt id="pydst.pydst.get_data">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">variables</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">coding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table id’s associated with a (list of) topics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_id</strong> (<em>str</em>) – id of table to get.</p></li>
+<li><p><strong>variables</strong> (<em>dict</em>) – dictionary of variable-name, variable-value pairs. Use ‘*’ to select all available values.</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – language (da/en)</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json)</p></li>
+<li><p><strong>coding</strong> (<em>str</em>) – return data as code (‘Code’), string label (‘Value’), both (‘CodeAndValue’) or default (‘Default’)</p></li>
+<li><p><strong>order</strong> (<em>str</em>) – order data ‘ascending’ or ‘descending’.</p></li>
+<li><p><strong>delim</strong> (<em>str</em>) – delimiter (‘tab’ or ‘semicolon’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>requests.models.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.pydst.get_metadata">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata for a specific table id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_id</strong> (<em>str</em>) – a table id (e.g. FOLK1A).</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – language (da/en)</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>requests.models.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.pydst.get_tables">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">topics</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">past_days</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_inactive</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table id’s associated with a (list of) topics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topics</strong> (<em>str/list/tuple</em>) – topics to retrieve table id’s for.</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – Language of result (da/en).</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json).</p></li>
+<li><p><strong>past_days</strong> (<em>int</em>) – include tables updated in the past x days. Must be positive if included.</p></li>
+<li><p><strong>include_inactive</strong> (<em>bool</em>) – include tables that are no longer updated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>requests.models.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.pydst.get_topics">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_topics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">topics</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">omit_empty</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_tables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request a json of available topics. These are
+broad categories of data (e.g. ‘population and elections’
+or ‘culture and church’). The default is to retrieve
+all high level topics. Set the topics parameter to retrieve
+only a subset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lang</strong> (<em>str</em>) – Language of result (da/en).</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json).</p></li>
+<li><p><strong>recursive</strong> (<em>bool</em>) – Recursively include topics from the hierachy.</p></li>
+<li><p><strong>omit_empty</strong> (<em>bool</em>) – Omit topics with no tables associated.</p></li>
+<li><p><strong>include_tables</strong> (<em>bool</em>) – Include table id’s as lowest level topics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>requests.models.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">pydst</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Kristian Urup Olesen Larsen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
