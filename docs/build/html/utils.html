@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utility functions &#8212; pydst 0.1.2 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Requesting data" href="pydst.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pydst.utils">
+<span id="utility-functions"></span><h1>Utility functions<a class="headerlink" href="#module-pydst.utils" title="Permalink to this headline">¶</a></h1>
+<p>Utility functions for the pydst library.</p>
+<dl class="py class">
+<dt id="pydst.utils.DSTResponse">
+<em class="property">class </em><code class="sig-prename descclassname">pydst.utils.</code><code class="sig-name descname">DSTResponse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">response</span></em>, <em class="sig-param"><span class="n">entrypoint</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.DSTResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response wrapper. Preserves information on the entrypoint and format of the 
+data to allow automatic conversion to pandas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> (<em>requests.Response</em>) – requests.Response object.</p></li>
+<li><p><strong>entrypoint</strong> (<em>str</em>) – The API entrypoint of the call.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Kwargs</dt>
+<dd class="field-even"><p>Extra parameters passed to the API.</p>
+</dd>
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> – requests Response object.</p></li>
+<li><p><strong>entrypoint</strong> – used entrypoint of the API.</p></li>
+<li><p><strong>**parameters</strong> – Additional parameters passed to the API.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="pydst.utils.DSTResponse.json">
+<code class="sig-name descname">json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.DSTResponse.json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get JSON data of response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydst.utils.DSTResponse.status_code">
+<em class="property">property </em><code class="sig-name descname">status_code</code><a class="headerlink" href="#pydst.utils.DSTResponse.status_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the response status code</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pydst.utils.DSTResponse.text">
+<em class="property">property </em><code class="sig-name descname">text</code><a class="headerlink" href="#pydst.utils.DSTResponse.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get raw text data of response.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.utils.add_url_parameters">
+<code class="sig-prename descclassname">pydst.utils.</code><code class="sig-name descname">add_url_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.add_url_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add url parameters to the base url.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – base url.</p>
+</dd>
+<dt class="field-even">Kwargs</dt>
+<dd class="field-even"><p>key-value pairs of the url parameters to add. If the value is None, the pair is not added.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>url string.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.utils.coerce_input_to_str">
+<code class="sig-prename descclassname">pydst.utils.</code><code class="sig-name descname">coerce_input_to_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.coerce_input_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coerce url data to a comma separated string.
+e.g. [‘a’,’b’] becomes ‘a,b’ while ‘c,d’ is
+unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em><em>, </em><em>list</em><em>, </em><em>tuple</em>) – Input data to coerce.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Joined string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.utils.list_from_comma_separated_string">
+<code class="sig-prename descclassname">pydst.utils.</code><code class="sig-name descname">list_from_comma_separated_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.list_from_comma_separated_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a comma separated string such
+as ‘1,2,3’ to a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – string of items separated by commas.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of separated values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.utils.to_dataframe">
+<code class="sig-prename descclassname">pydst.utils.</code><code class="sig-name descname">to_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstresponse</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.to_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dataframe from csv format data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dstresponse</strong> (<a class="reference internal" href="#pydst.utils.DSTResponse" title="pydst.utils.DSTResponse"><em>pydst.utils.DSTResponse</em></a>) – DSTResponse from the data entrypoint.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pandas dataframe containing the values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst.dataframes</span> <span class="kn">import</span> <span class="n">to_dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;FOLK1A&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>             <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;OMRÅDE&#39;</span><span class="p">:</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;Tid&#39;</span><span class="p">:</span><span class="s1">&#39;*&#39;</span><span class="p">},</span> 
+<span class="gp">&gt;&gt;&gt; </span>             <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">to_dataframe</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydst</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pydst.html">Requesting data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Utility functions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="pydst.html" title="previous chapter">Requesting data</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Kristian Urup Olesen Larsen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/utils.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -15,6 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utility functions" href="utils.html" />
     <link rel="prev" title="Welcome to pydst’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -38,7 +39,7 @@
 to facilitate custom postprocessing.</p>
 <dl class="py function">
 <dt id="pydst.pydst.get_data">
-<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">variables</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">coding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">variables</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">coding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get actual data from a specific table identified by its <cite>table_id</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -55,96 +56,24 @@ to facilitate custom postprocessing.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="field-list simple">
 <dt class="field-odd">class</dt>
-<dd class="field-odd"><p><cite>Response</cite> a requests response object.</p>
+<dd class="field-odd"><p><cite>DSTResponse</cite> a response class wrapping the raw request.</p>
 </dd>
 </dl>
 </p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>requests.models.Response</p>
 </dd>
 </dl>
 <p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;FOLK1A&#39;</span><span class="p">,</span> 
 <span class="gp">&gt;&gt;&gt; </span>                <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Tid&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">},</span> 
 <span class="gp">&gt;&gt;&gt; </span>                <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pydst.pydst.get_metadata">
-<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_metadata" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get metadata for a specific table id.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>table_id</strong> (<em>str</em>) – a table id (e.g. FOLK1A).</p></li>
-<li><p><strong>lang</strong> (<em>str</em>) – language (da/en)</p></li>
-<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="field-list simple">
-<dt class="field-odd">class</dt>
-<dd class="field-odd"><p><cite>Response</cite> a requests response object.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>requests.models.Response</p>
-</dd>
-</dl>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_metadata</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">meta</span> <span class="o">=</span> <span class="n">get_metadata</span><span class="p">(</span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;FOLK1A&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pydst.pydst.get_tables">
-<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">topics</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">past_days</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_inactive</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_tables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get table id’s associated with a (list of) topics.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>topics</strong> (<em>str/list/tuple</em>) – topics to retrieve table id’s for.</p></li>
-<li><p><strong>lang</strong> (<em>str</em>) – Language of result (da/en).</p></li>
-<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json).</p></li>
-<li><p><strong>past_days</strong> (<em>int</em>) – include tables updated in the past x days. Must be positive if included.</p></li>
-<li><p><strong>include_inactive</strong> (<em>bool</em>) – include tables that are no longer updated.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="field-list simple">
-<dt class="field-odd">class</dt>
-<dd class="field-odd"><p><cite>Response</cite> a requests response object.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>requests.models.Response</p>
-</dd>
-</dl>
-<p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_tables</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tables</span> <span class="o">=</span> <span class="n">get_tables</span><span class="p">(</span><span class="n">topics</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tables</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pydst.pydst.get_topics">
-<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_topics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">topics</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">omit_empty</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_tables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_topics" title="Permalink to this definition">¶</a></dt>
+<dt id="pydst.pydst.get_subjects">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_subjects</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subjects</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">omit_empty</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_tables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_subjects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Request a json of available topics. These are
 broad categories of data (e.g. ‘population and elections’
 or ‘culture and church’). The default is to retrieve
@@ -163,19 +92,76 @@ only a subset.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><dl class="field-list simple">
 <dt class="field-odd">class</dt>
-<dd class="field-odd"><p><cite>Response</cite> a requests response object.</p>
+<dd class="field-odd"><p><cite>DSTResponse</cite> a response class wrapping the raw request.</p>
 </dd>
 </dl>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>requests.models.Response</p>
+</dl>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_subjects</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">subs</span> <span class="o">=</span> <span class="n">get_subjects</span><span class="p">(</span><span class="n">subjects</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">subs</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.pydst.get_tableinfo">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_tableinfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_tableinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata for a specific table id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_id</strong> (<em>str</em>) – a table id (e.g. FOLK1A).</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – language (da/en)</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">class</dt>
+<dd class="field-odd"><p><cite>DSTResponse</cite> a response class wrapping the raw request.</p>
+</dd>
+</dl>
+</p>
 </dd>
 </dl>
 <p>Usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_topics</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">topics</span> <span class="o">=</span> <span class="n">get_topics</span><span class="p">(</span><span class="n">topics</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">topics</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_tableinfo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">meta</span> <span class="o">=</span> <span class="n">get_tableinfo</span><span class="p">(</span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;FOLK1A&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pydst.pydst.get_tables">
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subjects</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">pastdays</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">include_inactive</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table id’s associated with a (list of) topics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>topics</strong> (<em>str/list/tuple</em>) – topics to retrieve table id’s for.</p></li>
+<li><p><strong>lang</strong> (<em>str</em>) – Language of result (da/en).</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json).</p></li>
+<li><p><strong>pastdays</strong> (<em>int</em>) – include tables updated in the past x days. Must be positive if included.</p></li>
+<li><p><strong>include_inactive</strong> (<em>bool</em>) – include tables that are no longer updated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="field-list simple">
+<dt class="field-odd">class</dt>
+<dd class="field-odd"><p><cite>DSTResponse</cite> a response class wrapping the raw request.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_tables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tables</span> <span class="o">=</span> <span class="n">get_tables</span><span class="p">(</span><span class="n">topics</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tables</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -202,6 +188,7 @@ only a subset.</p>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Requesting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility functions</a></li>
 </ul>
 
 <div class="relations">
@@ -209,6 +196,7 @@ only a subset.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to pydst’s documentation!</a></li>
+      <li>Next: <a href="utils.html" title="next chapter">Utility functions</a></li>
   </ul></li>
 </ul>
 </div>

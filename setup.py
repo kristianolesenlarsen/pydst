@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pydst',
-      version='0.1.2',
+      version='0.2.0',
       description='Pull data from Statistics Denmark',
       url='http://github.com/KristianUrupLarsen/pydst',
       author='Kristian Urup Olesen Larsen',

@@ -13,11 +13,11 @@ Welcome to pydst's documentation!
    :caption: Contents:
    
    pydst
-
+   utils
 
  
 Indices and tables
-==================
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`

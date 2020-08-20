@@ -1,5 +1,4 @@
 
-test.ipynb
 .pytest_cache
 *.ipynb
 .ipynb_checkpoints
@@ -31,7 +30,7 @@ __pycache__/*
 /dist/
 /*.egg-info
 
-tests/*
+
 
 # =========================
 # Operating System Files
