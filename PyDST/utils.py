@@ -121,7 +121,7 @@ def to_dataframe(dstresponse):
 
         Usage::
 
-            >>> from pydst.dataframes import to_dataframe
+            >>> from pydst.utils import to_dataframe
             >>> from pydst import get_data
             >>> r = get_data('FOLK1A', 
             >>>              variables = {'OMRÅDE':'*', 'Tid':'*'}, 
