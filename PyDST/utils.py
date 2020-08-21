@@ -102,6 +102,10 @@ class DSTResponse:
         )
 
     @property
+    def ok(self):
+        return self.status_code == 200
+
+    @property
     def status_code(self):
         """ Get the response status code """
         return self.response.status_code
@@ -139,3 +143,4 @@ def to_dataframe(dstresponse):
     if dstresponse.fmt != "csv":
         raise NotImplementedError(f"response has format {dstresponse.fmt}, only csv is supported.")
     return read_csv(StringIO(dstresponse.text), sep=";")
+
