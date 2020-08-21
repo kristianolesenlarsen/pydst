@@ -165,7 +165,7 @@ def get_data(
         :param lang: language (da/en)
         :type lang: str
 
-        :param fmt: format (default is 'csv')
+        :param fmt: format. Default is 'csv'. Alternatives includes 'json' and 'bulk'. Bulk format streams data in and is not capacity limited by DST.
         :type fmt: str
 
         :param coding: return data as code ('Code'), string label ('Value'), both ('CodeAndValue') or default ('Default')
@@ -186,7 +186,9 @@ def get_data(
             >>>                 variables = {'Tid': '*'}, 
             >>>                 fmt = 'csv')
     """
-    fmt = fmt if fmt != "json" else "jsonstat"
+    fmt = fmt if fmt.lower() != "json" else "jsonstat"
+    streaming = True if fmt.lower() == "bulk" else False
+
     url = f"{BASE_URL}/data/{table_id}/{fmt}"
     url = add_url_parameters(
         url=url,
@@ -197,7 +199,7 @@ def get_data(
         **{k: coerce_input_to_str(v) for k, v in variables.items()},
     )
     return DSTResponse(
-        response=requests.get(url),
+        response=requests.get(url, stream=streaming),
         entrypoint="data",
         fmt="json" if fmt == "jsonstat" else fmt,
         lang=lang,

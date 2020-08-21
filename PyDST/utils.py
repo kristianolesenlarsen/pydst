@@ -119,6 +119,29 @@ class DSTResponse:
         """ Get JSON data of response. """
         return self.response.json()
 
+    def iter_lines(self, chunk_size=512, *args, **kwargs):
+        """ Iterate over a streaming connection. With a streaming format you can pull
+            datasets larger than the cap of ~500.000 cells at once. 
+        
+            :param chunk_size: Chunk size for streaming in data.
+            :type chunk_size: int
+
+            unnamed and keyword arguments are passed on to requests.Response.iter_lines
+
+            Usage::
+                >>> from pydst import get_data
+                >>> data = get_data(table_id="FOLK1A", 
+                >>>                 variables = {'Tid': '*', 
+                >>>                              'OMRÅDE': '000', 
+                >>>                              'CIVILSTAND': 'TOT', 
+                >>>                              'KØN': 'TOT', 
+                >>>                              'ALDER': 'IALT'}, 
+                >>>                 fmt = 'bulk') # Streaming format
+                >>> for line in data.iter_lines(chunk_size = 1024):
+                >>>     print(line)
+        """
+        return self.response.iter_lines(chunk_size=chunk_size, *args, **kwargs)
+
 
 def to_dataframe(dstresponse):
     """ Get dataframe from csv format data 
