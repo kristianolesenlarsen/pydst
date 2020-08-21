@@ -1,8 +1,9 @@
 """ Utility functions for the pydst library.
 """
+from .errors import DSTApiError
 
-
-import pandas as pd
+from pandas import read_csv
+from requests.exceptions import HTTPError
 from io import StringIO
 
 
@@ -79,6 +80,11 @@ class DSTResponse:
     """
 
     def __init__(self, response, entrypoint, **parameters):
+        try:
+            response.raise_for_status()
+        except HTTPError as error:
+            raise DSTApiError(response.text) from error
+
         self.response = response
         self.entrypoint = entrypoint
         self.parameters = parameters
@@ -87,12 +93,12 @@ class DSTResponse:
 
     def __repr__(self):
         return "DSTResponse(entrypoint={}, {})".format(
-            self.entrypoint, ",".join(f"{k}={v}" for k, v in self.parameters.items())
+            self.entrypoint, ", ".join(f"{k}={v}" for k, v in self.parameters.items())
         )
 
     def __str__(self):
         return "DSTResponse(entrypoint={}, {})".format(
-            self.entrypoint, ",".join(f"{k}={v}" for k, v in self.parameters.items())
+            self.entrypoint, ", ".join(f"{k}={v}" for k, v in self.parameters.items())
         )
 
     @property
@@ -132,4 +138,4 @@ def to_dataframe(dstresponse):
         raise ValueError(f"entrypoint {dstresponse.entrypoint} cannot be read as csv.")
     if dstresponse.fmt != "csv":
         raise NotImplementedError(f"response has format {dstresponse.fmt}, only csv is supported.")
-    return pd.read_csv(StringIO(dstresponse.text), sep=";")
+    return read_csv(StringIO(dstresponse.text), sep=";")

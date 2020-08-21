@@ -152,7 +152,7 @@ def get_tableinfo(
 
 
 def get_data(
-    table_id, variables={}, lang="en", fmt="json", coding=None, order=None, delim=None,
+    table_id, variables={}, lang="en", fmt="csv", coding=None, order=None, delim=None,
 ):
     """ Get actual data from a specific table identified by its `table_id`.
 
@@ -165,7 +165,7 @@ def get_data(
         :param lang: language (da/en)
         :type lang: str
 
-        :param fmt: format (default is json)
+        :param fmt: format (default is 'csv')
         :type fmt: str
 
         :param coding: return data as code ('Code'), string label ('Value'), both ('CodeAndValue') or default ('Default')
