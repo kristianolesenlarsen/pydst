@@ -59,6 +59,34 @@ data to allow automatic conversion to pandas.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt id="pydst.utils.DSTResponse.iter_lines">
+<code class="sig-name descname">iter_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">512</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.DSTResponse.iter_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over a streaming connection. With a streaming format you can pull
+datasets larger than the cap of ~500.000 cells at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chunk_size</strong> (<em>int</em>) – Chunk size for streaming in data.</p>
+</dd>
+</dl>
+<p>unnamed and keyword arguments are passed on to requests.Response.iter_lines</p>
+<dl>
+<dt>Usage::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pydst</span> <span class="kn">import</span> <span class="n">get_data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">table_id</span><span class="o">=</span><span class="s2">&quot;FOLK1A&quot;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Tid&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;OMRÅDE&#39;</span><span class="p">:</span> <span class="s1">&#39;000&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;CIVILSTAND&#39;</span><span class="p">:</span> <span class="s1">&#39;TOT&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;KØN&#39;</span><span class="p">:</span> <span class="s1">&#39;TOT&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;ALDER&#39;</span><span class="p">:</span> <span class="s1">&#39;IALT&#39;</span><span class="p">},</span> 
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;bulk&#39;</span><span class="p">)</span> <span class="c1"># Streaming format</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iter_lines</span><span class="p">(</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pydst.utils.DSTResponse.json">
 <code class="sig-name descname">json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydst.utils.DSTResponse.json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get JSON data of response.</p>
