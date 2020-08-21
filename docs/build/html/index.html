@@ -34,8 +34,65 @@
             
   <div class="section" id="welcome-to-pydst-s-documentation">
 <h1>Welcome to pydst’s documentation!<a class="headerlink" href="#welcome-to-pydst-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Pydst is a simple package for pulling data from the API of statistics Denmark. To install you can run</p>
+<p>Pydst is a simple package for pulling data from the API of statistics Denmark. Documentation is at <a class="reference external" href="https://kristianuruplarsen.github.io/pydst/">https://kristianuruplarsen.github.io/pydst/</a>.</p>
+<p>To install you can run</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Kristianuruplarsen</span><span class="o">/</span><span class="n">pydst</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>The main interface is through four functions that respectively browse subjects, browse tables within a subject, retrieve metadata about tables, and retrieves actual tables of data. Except for <code class="docutils literal notranslate"><span class="pre">get_data</span></code> the default format is json. <code class="docutils literal notranslate"><span class="pre">get_data</span></code> uses semicolon separated csv as its default.</p>
+</div>
+<div class="section" id="example">
+<h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
+<p>This example covers the basics of <code class="docutils literal notranslate"><span class="pre">pydst</span></code>. First import the package and retrieve the list of available subjects</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pydst</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span> <span class="o">=</span> <span class="n">pydst</span><span class="o">.</span><span class="n">get_subjects</span><span class="p">()</span>      <span class="c1"># No table_id gets all available subjects</span>
+<span class="go">DSTResponse(entrypoint=subjects, lang=en, fmt=json, recursive=None, omit_empty=None, include_tables=None)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">DSTResponse</span></code> object is a thin wrapper around <code class="docutils literal notranslate"><span class="pre">requests.Response</span></code> that stores a bit of information about the request. To get to the data do</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="go">[{&#39;id&#39;: &#39;02&#39;,</span>
+<span class="go">  &#39;description&#39;: &#39;Population and elections&#39;,</span>
+<span class="go">  &#39;active&#39;: True,</span>
+<span class="go">  &#39;hasSubjects&#39;: True,</span>
+<span class="go">  &#39;subjects&#39;: []},</span>
+<span class="go">    ...</span>
+</pre></div>
+</div>
+<p>Say we want data from subject <code class="docutils literal notranslate"><span class="pre">'16'</span></code>, “Money and credit market”. To find out what tables are available run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tables</span> <span class="o">=</span> <span class="n">pydst</span><span class="o">.</span><span class="n">get_tables</span><span class="p">(</span><span class="n">subjects</span> <span class="o">=</span> <span class="s1">&#39;16&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="go">    [{&#39;id&#39;: &#39;DNVPDKS&#39;,</span>
+<span class="go">    &#39;text&#39;: &#39;VP-registered securities&#39;,</span>
+<span class="go">    &#39;unit&#39;: &#39;m DKK&#39;,</span>
+<span class="go">    &#39;updated&#39;: &#39;2020-07-28T08:00:00&#39;,</span>
+<span class="go">    &#39;firstPeriod&#39;: &#39;1999M12&#39;,</span>
+<span class="go">    &#39;latestPeriod&#39;: &#39;2020M06&#39;,</span>
+<span class="go">    &#39;active&#39;: True,</span>
+<span class="go">    &#39;variables&#39;: [&#39;type of security&#39;,</span>
+<span class="go">    &#39;coupon&#39;,</span>
+<span class="go">    &#39;currency&#39;,</span>
+<span class="go">    &#39;maturity&#39;,</span>
+<span class="go">    &#39;issuer sector&#39;,</span>
+<span class="go">    &#39;investor sector&#39;,</span>
+<span class="go">    &#39;valuation&#39;,</span>
+<span class="go">    &#39;data type&#39;,</span>
+<span class="go">    &#39;time&#39;]},</span>
+<span class="go">        ...</span>
+</pre></div>
+</div>
+<p>Here we can pick a dataset, e.g. <code class="docutils literal notranslate"><span class="pre">'DNTRENDT'</span></code> containing “Interest rates by item, country, methodology and time”. We still need to figure out what data are available in this table, so before calling <code class="docutils literal notranslate"><span class="pre">get_data</span></code> let us find some detailed information on <code class="docutils literal notranslate"><span class="pre">'DNTRENDT'</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">info</span> <span class="o">=</span> <span class="n">pydst</span><span class="o">.</span><span class="n">get_tableinfo</span><span class="p">(</span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;DNTRENDT&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will produce a large json file containing metadata including when the table was last updated, contact details for whoever is responsible for maintaining the dataset and more importantly, variable names and values of the dataset. In this case we will get the discount rate (variable <code class="docutils literal notranslate"><span class="pre">'INSTRUMENT'</span></code> and value <code class="docutils literal notranslate"><span class="pre">'ODKNAA'</span></code>) all months since 1983 (variable <code class="docutils literal notranslate"><span class="pre">'Tid'</span></code>, which is <em>time</em> in Danish, all values <code class="docutils literal notranslate"><span class="pre">*</span></code>). Finally we will get an error unless we set the <code class="docutils literal notranslate"><span class="pre">'OPGOER'</span></code> variable, so we will set this to “Daily interest rates (per cent)” (<code class="docutils literal notranslate"><span class="pre">'E'</span></code>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pydst</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;DNRENTD&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                      <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;INSTRUMENT&#39;</span><span class="p">:</span> <span class="s1">&#39;ODKNAA&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                   <span class="s1">&#39;Tid&#39;</span><span class="p">:</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                   <span class="s1">&#39;OPGOER&#39;</span><span class="p">:</span> <span class="s1">&#39;E&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>As a final step, we can convert the data to a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pydst</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">

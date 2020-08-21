@@ -6,7 +6,7 @@
 Welcome to pydst's documentation!
 =================================
 
-..  include::   ../../README.md
+..  include::   ../../README.rst
 
 .. toctree::
    :maxdepth: 2
@@ -14,6 +14,7 @@ Welcome to pydst's documentation!
    
    pydst
    utils
+
 
  
 Indices and tables

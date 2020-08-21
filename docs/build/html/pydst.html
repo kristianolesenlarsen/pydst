@@ -39,7 +39,7 @@
 to facilitate custom postprocessing.</p>
 <dl class="py function">
 <dt id="pydst.pydst.get_data">
-<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">variables</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">coding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pydst.pydst.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_id</span></em>, <em class="sig-param"><span class="n">variables</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">lang</span><span class="o">=</span><span class="default_value">'en'</span></em>, <em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">'csv'</span></em>, <em class="sig-param"><span class="n">coding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydst.pydst.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get actual data from a specific table identified by its <cite>table_id</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -47,7 +47,7 @@ to facilitate custom postprocessing.</p>
 <li><p><strong>table_id</strong> (<em>str</em>) – id of table to get.</p></li>
 <li><p><strong>variables</strong> (<em>dict</em>) – dictionary of variable-name, variable-value pairs. Use ‘*’ to select all available values.</p></li>
 <li><p><strong>lang</strong> (<em>str</em>) – language (da/en)</p></li>
-<li><p><strong>fmt</strong> (<em>str</em>) – format (default is json)</p></li>
+<li><p><strong>fmt</strong> (<em>str</em>) – format (default is ‘csv’)</p></li>
 <li><p><strong>coding</strong> (<em>str</em>) – return data as code (‘Code’), string label (‘Value’), both (‘CodeAndValue’) or default (‘Default’)</p></li>
 <li><p><strong>order</strong> (<em>str</em>) – order data ‘ascending’ or ‘descending’.</p></li>
 <li><p><strong>delim</strong> (<em>str</em>) – delimiter (‘tab’ or ‘semicolon’)</p></li>
