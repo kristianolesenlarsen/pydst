@@ -1,7 +1,7 @@
 import pytest
 
-import pydst
-from pydst.utils import (
+import PyDST
+from PyDST.utils import (
     DSTResponse,
     coerce_input_to_str,
     add_url_parameters,
@@ -12,7 +12,7 @@ import requests
 import pandas as pd
 from time import sleep
 
-from pydst.errors import DSTApiError
+from PyDST.errors import DSTApiError
 from simplejson.errors import JSONDecodeError
 
 
@@ -41,7 +41,7 @@ def test_list_from_comma_separated_string():
 
 def test_get_subjects():
     sleep(0.2)
-    call = pydst.get_subjects()
+    call = PyDST.get_subjects()
     assert isinstance(call, DSTResponse)
     assert hasattr(call, "response")
     assert hasattr(call, "entrypoint")
@@ -53,21 +53,21 @@ def test_get_subjects():
 
 def test_get_tables():
     sleep(0.2)
-    call = pydst.get_tables()
+    call = PyDST.get_tables()
     assert isinstance(call, DSTResponse)
     assert hasattr(call, "response")
     assert hasattr(call, "entrypoint")
     assert type(call.response) == requests.models.Response
     assert type(call.entrypoint) == str
     assert call.status_code == 200
-    assert pydst.get_tables(subjects="01").status_code == 200
-    assert pydst.get_tables(subjects=["01", "02"]).status_code == 200
+    assert PyDST.get_tables(subjects="01").status_code == 200
+    assert PyDST.get_tables(subjects=["01", "02"]).status_code == 200
     call.json()
 
 
 def test_get_tableinfo():
     sleep(0.2)
-    call = pydst.get_tableinfo(table_id="FOLK1A")
+    call = PyDST.get_tableinfo(table_id="FOLK1A")
     assert isinstance(call, DSTResponse)
     assert hasattr(call, "response")
     assert hasattr(call, "entrypoint")
@@ -79,7 +79,7 @@ def test_get_tableinfo():
 
 def test_get_data():
     sleep(0.2)
-    call = pydst.get_data(table_id="FOLK1A")
+    call = PyDST.get_data(table_id="FOLK1A")
     assert isinstance(call, DSTResponse)
     assert hasattr(call, "response")
     assert hasattr(call, "entrypoint")
@@ -91,23 +91,23 @@ def test_get_data():
     with pytest.raises(JSONDecodeError):
         call.json()
 
-    call = pydst.get_data(table_id="FOLK1A", fmt="json")
+    call = PyDST.get_data(table_id="FOLK1A", fmt="json")
     assert call.fmt == "json"
     call.text
 
 
 def test_to_dataframe():
     sleep(0.2)
-    call = pydst.get_data(table_id="FOLK1A", fmt="csv")
+    call = PyDST.get_data(table_id="FOLK1A", fmt="csv")
     df = to_dataframe(call)
     assert isinstance(df, pd.DataFrame)
 
-    call = pydst.get_data(table_id="FOLK1A", fmt="json")
+    call = PyDST.get_data(table_id="FOLK1A", fmt="json")
     assert call.fmt == "json"
     with pytest.raises(NotImplementedError):
         to_dataframe(call)
 
-    call = pydst.get_tableinfo(table_id="FOLK1A")
+    call = PyDST.get_tableinfo(table_id="FOLK1A")
     assert call.fmt == "json"
     with pytest.raises(ValueError):
         to_dataframe(call)
@@ -116,9 +116,9 @@ def test_to_dataframe():
 def test_DSTReponse():
     sleep(0.2)
     with pytest.raises(DSTApiError):
-        call = pydst.get_data(table_id="asd")
+        call = PyDST.get_data(table_id="asd")
 
-    call = pydst.get_data(table_id="FOLK1A")
+    call = PyDST.get_data(table_id="FOLK1A")
     assert hasattr(call, "response")
     assert hasattr(call, "entrypoint")
     assert hasattr(call, "fmt")

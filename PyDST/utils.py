@@ -1,4 +1,4 @@
-""" Utility functions for the pydst library.
+""" Utility functions for the PyDST library.
 """
 from .errors import DSTApiError
 
@@ -129,7 +129,7 @@ class DSTResponse:
             unnamed and keyword arguments are passed on to requests.Response.iter_lines
 
             Usage::
-                >>> from pydst import get_data
+                >>> from PyDST import get_data
                 >>> data = get_data(table_id="FOLK1A", 
                 >>>                 variables = {'Tid': '*', 
                 >>>                              'OMRÅDE': '000', 
@@ -147,15 +147,15 @@ def to_dataframe(dstresponse):
     """ Get dataframe from csv format data 
 
         :param dstresponse: DSTResponse from the data entrypoint.
-        :type dstresponse: pydst.utils.DSTResponse
+        :type dstresponse: PyDST.utils.DSTResponse
 
         :return: A pandas dataframe containing the values.
         :rtype: pd.DataFrame
 
         Usage::
 
-            >>> from pydst.utils import to_dataframe
-            >>> from pydst import get_data
+            >>> from PyDST.utils import to_dataframe
+            >>> from PyDST import get_data
             >>> r = get_data('FOLK1A', 
             >>>              variables = {'OMRÅDE':'*', 'Tid':'*'}, 
             >>>              fmt = 'csv')

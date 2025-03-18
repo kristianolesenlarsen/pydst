@@ -3,12 +3,8 @@
 """
 
 import requests
-from .utils import (
-    coerce_input_to_str,
-    add_url_parameters,
-    list_from_comma_separated_string,
-    DSTResponse,
-)
+
+from .utils import DSTResponse, add_url_parameters, coerce_input_to_str
 
 BASE_URL = "https://api.statbank.dk/v1"
 
@@ -43,7 +39,7 @@ def get_subjects(
 
         Usage::
 
-            >>> from pydst import get_subjects
+            >>> from PyDST import get_subjects
             >>> subs = get_subjects(subjects = '02')
             >>> print(subs.json())
     """
@@ -95,7 +91,7 @@ def get_tables(
 
         Usage::
 
-            >>> from pydst import get_tables
+            >>> from PyDST import get_tables
             >>> tables = get_tables(topics = '02')
             >>> print(tables.json())
     """
@@ -141,7 +137,7 @@ def get_tableinfo(
 
         Usage::
 
-            >>> from pydst import get_tableinfo
+            >>> from PyDST import get_tableinfo
             >>> meta = get_tableinfo(table_id = 'FOLK1A')
             >>> print(meta.json())
     """
@@ -181,7 +177,7 @@ def get_data(
 
         Usage::
 
-            >>> from pydst import get_data
+            >>> from PyDST import get_data
             >>> resp = get_data(table_id = 'FOLK1A', 
             >>>                 variables = {'Tid': '*'}, 
             >>>                 fmt = 'csv')
