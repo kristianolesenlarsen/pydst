@@ -1,4 +1,4 @@
-PyDST is a simple package for pulling data from the API of statistics Denmark. Documentation is at [KristianOlesenLarsen.github.io/PyDST](https://kristianolesenlarsen.github.io/pydst/).
+PyDST is a simple package for pulling data from the API of statistics Denmark. Documentation is at [this site](https://kristianolesenlarsen.github.io/pydst/).
 
 To install you can run 
 
