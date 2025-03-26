@@ -8,6 +8,6 @@ setup(name='pydst',
       license='MIT',
       packages=find_packages(),
       install_requires=[
-        'requests'
+        'requests', 'pandas'
       ],
       zip_safe=False)

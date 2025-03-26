@@ -13,7 +13,6 @@ import pandas as pd
 from time import sleep
 
 from PyDST.errors import DSTApiError
-from simplejson.errors import JSONDecodeError
 
 
 def test_coerce_input_to_str():
@@ -60,8 +59,8 @@ def test_get_tables():
     assert type(call.response) == requests.models.Response
     assert type(call.entrypoint) == str
     assert call.status_code == 200
-    assert PyDST.get_tables(subjects="01").status_code == 200
-    assert PyDST.get_tables(subjects=["01", "02"]).status_code == 200
+    assert PyDST.get_tables(subjects="1").status_code == 200
+    assert PyDST.get_tables(subjects=["1", "2"]).status_code == 200
     call.json()
 
 
@@ -88,7 +87,7 @@ def test_get_data():
     assert type(call.entrypoint) == str
     assert call.status_code == 200
     assert call.fmt == "csv"
-    with pytest.raises(JSONDecodeError):
+    with pytest.raises(ValueError):
         call.json()
 
     call = PyDST.get_data(table_id="FOLK1A", fmt="json")

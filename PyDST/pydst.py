@@ -92,7 +92,7 @@ def get_tables(
         Usage::
 
             >>> from PyDST import get_tables
-            >>> tables = get_tables(topics = '02')
+            >>> tables = get_tables(subjects = '2')
             >>> print(tables.json())
     """
     subjects = subjects if subjects is None else coerce_input_to_str(subjects)
